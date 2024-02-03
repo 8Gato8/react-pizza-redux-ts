@@ -14,11 +14,15 @@ import { getPizzas } from '../utils/pizzasApi';
 
 /* import { getNewPizzas } from '../features/pizzas/pizzasSlice'; */
 
-import { useSelector /* useDispatch */ } from 'react-redux';
+import { currentPageChanged } from '../features/filtration/filtrationSlice';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 function Home() {
-  /* const dispatch = useDispatch(); */
+  const dispatch = useDispatch();
   /* const pizzas = useSelector((state) => state.pizzas); */
+
+  const currentPage = useSelector((state) => state.filtration.currentPage);
 
   const { searchValue } = useContext(SearchValueContext);
 
@@ -27,11 +31,11 @@ function Home() {
 
   const { activeCategoryId, activeSortingType } = useSelector((state) => state.filtration);
 
-  const [currentPage, setCurrentPage] = useState(INITIAL_PAGE);
-
   const renderPizzas = (pizzas) => {
-    const pizzasToRender = pizzas.map((pizza) => <Pizza key={pizza.id} {...pizza} />);
-    return pizzasToRender;
+    if (pizzas) {
+      const pizzasToRender = pizzas.map((pizza) => <Pizza key={pizza.id} {...pizza} />);
+      return pizzasToRender;
+    }
   };
 
   const renderSkeletons = () => {
@@ -39,7 +43,7 @@ function Home() {
   };
 
   const onPageChange = (newPage) => {
-    setCurrentPage(newPage);
+    dispatch(currentPageChanged(newPage));
   };
 
   const getNewPizzas = async (newParams) => {
@@ -59,8 +63,8 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    setCurrentPage(INITIAL_PAGE);
-  }, []);
+    dispatch(currentPageChanged(INITIAL_PAGE));
+  }, [dispatch]);
 
   useEffect(() => {
     const data = {
@@ -95,7 +99,7 @@ function Home() {
         {isLoading ? renderSkeletons() : renderPizzas(pizzas)}
         {/* {pizzas.status !== 'suceedeed' ? renderSkeletons() : renderPizzas(pizzas.pizzas)} */}
       </section>
-      <Pagination onPageChange={onPageChange} />
+      <Pagination currentPage={currentPage} onPageChange={onPageChange} />
     </main>
   );
 }

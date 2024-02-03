@@ -14,14 +14,10 @@ import { SearchValueContext } from '../context/SearchValueContext';
 function App() {
   const [searchValue, setSearchValue] = useState('');
 
-  const onSearchValueChange = (newValue) => {
-    setSearchValue(newValue);
-  };
-
   return (
     <div className="App">
       <div className="wrapper">
-        <SearchValueContext.Provider value={{ searchValue, onSearchValueChange }}>
+        <SearchValueContext.Provider value={{ searchValue, setSearchValue }}>
           <Header />
           <div className="content">
             <Routes>
