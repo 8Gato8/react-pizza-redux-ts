@@ -4,13 +4,13 @@ const BASE_URL = 'https://6556133c84b36e3a431ef5af.mockapi.io';
 
 import axios from 'axios';
 
-const makeRequest = async (url, config, data) => {
+const makeRequest = async (url /* , config, data */) => {
   try {
-    if (data) {
+    /* if (data) {
       config.data = data;
-    }
+    } */
 
-    const response = await axios.get(url, config);
+    const response = await axios.get(url /* , config */);
 
     return response.data;
   } catch (error) {
@@ -28,5 +28,6 @@ const makeRequest = async (url, config, data) => {
 };
 
 export const getPizzas = (params) => {
-  return makeRequest('/items', { baseURL: BASE_URL, params });
+  /* return makeRequest('/items', { baseURL: BASE_URL, params }); */
+  return makeRequest(`${BASE_URL}/items?${params}`);
 };

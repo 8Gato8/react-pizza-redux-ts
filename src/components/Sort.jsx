@@ -2,26 +2,20 @@ import { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { activeSortingTypeChanged } from '../features/filtration/filtrationSlice';
+import { sortByChanged } from '../features/filtration/filtrationSlice';
+
+import { sortingFilters } from '../utils/constants';
 
 function Sort() {
   const dispatch = useDispatch();
 
-  const activeSortingType = useSelector((state) => state.filtration.activeSortingType);
-
-  const sortingFilters = [
-    { name: 'большей популярности', sortingType: 'rating', order: 'desc' },
-    { name: 'меньшей популярности', sortingType: 'rating', order: 'asc' },
-    { name: 'убыванию цены', sortingType: 'price', order: 'desc' },
-    { name: 'возрастанию цены', sortingType: 'price', order: 'asc' },
-    { name: 'алфавиту', sortingType: 'title' },
-  ];
+  const { sortBy, sortRuName, order } = useSelector((state) => state.filtration);
 
   const [isSortingPopupOpen, setIsSortingPopupOpen] = useState(false);
 
   const onSortingFilterClick = (sortingType) => {
-    if (activeSortingType !== sortingType) {
-      dispatch(activeSortingTypeChanged(sortingType));
+    if (sortRuName !== sortingType.sortRuName) {
+      dispatch(sortByChanged(sortingType));
     }
 
     setIsSortingPopupOpen(false);
@@ -43,24 +37,19 @@ function Sort() {
         </svg>
         <b>Сортировка</b>
         <b>по:</b>
-        <span onClick={() => setIsSortingPopupOpen(!isSortingPopupOpen)}>
-          {activeSortingType.name}
-        </span>
+        <span onClick={() => setIsSortingPopupOpen(!isSortingPopupOpen)}>{sortRuName}</span>
       </div>
       {isSortingPopupOpen && (
         <div className="sort__popup">
           <ul>
-            {sortingFilters.map((filter, index) => (
+            {sortingFilters.map((sortingType, index) => (
               <li
-                onClick={() => onSortingFilterClick(filter)}
+                onClick={() => onSortingFilterClick(sortingType)}
                 key={index}
                 className={`${
-                  activeSortingType.sortingType === filter.sortingType &&
-                  activeSortingType.order === filter.order
-                    ? 'active'
-                    : ''
+                  sortBy === sortingType.sortBy && order === sortingType.order ? 'active' : ''
                 }`}>
-                {filter.name}
+                {sortingType.sortRuName}
               </li>
             ))}
           </ul>

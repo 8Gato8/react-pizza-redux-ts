@@ -1,8 +1,9 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { PAGE_LIMIT, INITIAL_PAGE } from '../utils/constants';
+import qs from 'qs';
 
-import { SearchValueContext } from '../context/SearchValueContext';
+import { sortingFilters } from '../utils/constants';
 
 import Categories from '../components/Categories';
 import Skeleton from '../components/Pizza/Skeleton';
@@ -11,25 +12,30 @@ import Pizza from '../components/Pizza';
 import Pagination from '../components/Pagination';
 
 import { getPizzas } from '../utils/pizzasApi';
+/* import { sortingFilters } from '../utils/constants'; */
 
 /* import { getNewPizzas } from '../features/pizzas/pizzasSlice'; */
 
-import { currentPageChanged } from '../features/filtration/filtrationSlice';
+import { pageChanged, assignFiltrationState } from '../features/filtration/filtrationSlice';
 
 import { useSelector, useDispatch } from 'react-redux';
 
 function Home() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isSearchDone = useRef(false);
+  const isMounted = useRef(false);
   /* const pizzas = useSelector((state) => state.pizzas); */
 
-  const currentPage = useSelector((state) => state.filtration.currentPage);
+  const page = useSelector((state) => state.filtration.page);
 
-  const { searchValue } = useContext(SearchValueContext);
+  const filter = useSelector((state) => state.filtration.filter);
 
   const [isLoading, setIsLoading] = useState(true);
   const [pizzas, setPizzas] = useState([]);
 
-  const { activeCategoryId, activeSortingType } = useSelector((state) => state.filtration);
+  const { category, sortBy, order, limit } = useSelector((state) => state.filtration);
+  /* const filtration = useSelector((state) => state.filtration); */
 
   const renderPizzas = (pizzas) => {
     if (pizzas) {
@@ -43,7 +49,7 @@ function Home() {
   };
 
   const onPageChange = (newPage) => {
-    dispatch(currentPageChanged(newPage));
+    dispatch(pageChanged(newPage));
   };
 
   const getNewPizzas = async (newParams) => {
@@ -59,34 +65,64 @@ function Home() {
   };
 
   useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      const sort = sortingFilters.find(
+        (obj) => obj.sortBy === params.sortBy && obj.order === params.order,
+      );
+
+      dispatch(
+        assignFiltrationState({
+          ...params,
+          ...sort,
+        }),
+      );
+
+      isSearchDone.current = true;
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    dispatch(currentPageChanged(INITIAL_PAGE));
-  }, [dispatch]);
+    if (!isSearchDone.current) {
+      const data = {
+        sortBy,
+        page,
+        limit,
+      };
 
-  useEffect(() => {
-    const data = {
-      sortBy: activeSortingType.sortingType,
-      page: currentPage,
-      limit: PAGE_LIMIT,
-    };
+      if (filter) {
+        data.filter = filter;
+      }
 
-    if (searchValue) {
-      data.filter = searchValue;
+      if (category) {
+        data.category = category;
+      }
+
+      if (order) {
+        data.order = order;
+      }
+
+      const stringifiedData = qs.stringify(data);
+      getNewPizzas(stringifiedData);
+      /* getNewPizzas(data); */
+      if (isMounted.current) {
+        navigate(`?${stringifiedData}`);
+      }
+      /* dispatch(getNewPizzas()); */
     }
 
-    if (activeCategoryId) {
-      data.category = activeCategoryId;
-    }
+    isMounted.current = true;
+    isSearchDone.current = false;
+  }, [category, sortBy, filter, page, order, navigate, limit /* , dispatch */]);
 
-    if (activeSortingType.order) {
-      data.order = activeSortingType.order;
-    }
-    getNewPizzas(data);
-    /* dispatch(getNewPizzas()); */
-  }, [activeCategoryId, activeSortingType, searchValue, currentPage /* , dispatch */]);
+  /* useEffect(() => {
+    const queryStr = qs.stringify();
+
+  }, []); */
 
   return (
     <main className="container">
@@ -99,7 +135,7 @@ function Home() {
         {isLoading ? renderSkeletons() : renderPizzas(pizzas)}
         {/* {pizzas.status !== 'suceedeed' ? renderSkeletons() : renderPizzas(pizzas.pizzas)} */}
       </section>
-      <Pagination currentPage={currentPage} onPageChange={onPageChange} />
+      <Pagination currentPage={page} onPageChange={onPageChange} />
     </main>
   );
 }

@@ -1,6 +1,6 @@
-import { useRef, useCallback, useContext, useState } from 'react';
+import { useRef, useCallback, useState } from 'react';
 
-import { SearchValueContext } from '../../context/SearchValueContext';
+import { filterChanged } from '../../features/filtration/filtrationSlice';
 
 import debounce from 'lodash.debounce';
 
@@ -8,11 +8,11 @@ import styles from './Search.module.scss';
 
 import searchIcon from '../../assets/img/search-icon.svg';
 import clearIcon from '../../assets/img/clear-icon.svg';
+import { useDispatch } from 'react-redux';
 
 function Search() {
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
-
-  const { /* searchValue, */ setSearchValue } = useContext(SearchValueContext);
 
   const [localSearchValue, setLocalSearchValue] = useState('');
 
@@ -20,8 +20,8 @@ function Search() {
 
   const updateSearchValue = useCallback(
     debounce((str) => {
-      setSearchValue(str);
-    }, 300),
+      dispatch(filterChanged(str));
+    }, 200),
     [],
   );
 
@@ -31,7 +31,7 @@ function Search() {
   };
 
   const onClearClick = () => {
-    setSearchValue('');
+    dispatch(filterChanged(''));
     setLocalSearchValue('');
     inputRef.current.focus();
   };

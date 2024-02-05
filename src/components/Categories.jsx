@@ -1,27 +1,27 @@
 import { useSelector, useDispatch } from 'react-redux';
 
-import { activeCategoryIdChanged } from '../features/filtration/filtrationSlice';
+import { categoryChanged } from '../features/filtration/filtrationSlice';
 
-const categories = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
+const categoriesNames = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 
 function Сategories() {
   const dispatch = useDispatch();
 
-  const activeCategoryId = useSelector((state) => state.filtration.activeCategoryId);
+  const category = useSelector((state) => state.filtration.category);
 
   const onCategoryClick = (categoryId) => {
-    dispatch(activeCategoryIdChanged(categoryId));
+    dispatch(categoryChanged(categoryId));
   };
 
   return (
     <article className="categories">
       <ul>
-        {categories.map((category, index) => (
+        {categoriesNames.map((categoryName, index) => (
           <li
-            className={`${activeCategoryId === index ? 'active' : ''}`}
+            className={`${category === index ? 'active' : ''}`}
             onClick={() => onCategoryClick(index)}
             key={index}>
-            {category}
+            {categoryName}
           </li>
         ))}
       </ul>

@@ -1,30 +1,54 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { PAGE_LIMIT } from '../../utils/constants';
+
 const initialState = {
-  currentPage: 1,
-  activeCategoryId: 0,
-  activeSortingType: {
-    name: 'большей популярности',
-    sortingType: 'rating',
-  },
+  page: 1,
+  category: 0,
+  sortBy: 'rating',
+  sortRuName: 'большей популярности',
+  order: 'desc',
+  limit: PAGE_LIMIT,
+  filter: '',
 };
 
 const filtrationSlice = createSlice({
   name: 'filtration',
   initialState,
   reducers: {
-    currentPageChanged: (state, action) => {
-      state.currentPage = action.payload;
+    pageChanged: (state, action) => {
+      state.page = action.payload;
     },
-    activeCategoryIdChanged: (state, action) => {
-      state.activeCategoryId = action.payload;
+    categoryChanged: (state, action) => {
+      state.category = action.payload;
     },
-    activeSortingTypeChanged: (state, action) => {
-      state.activeSortingType = action.payload;
+    sortByChanged: (state, action) => {
+      state.sortBy = action.payload.sortBy;
+      state.sortRuName = action.payload.sortRuName;
+      state.order = action.payload.order;
+    },
+    changeLimit: (state, action) => {
+      state.limit = action.payload.limit;
+    },
+    filterChanged: (state, action) => {
+      state.filter = action.payload;
+    },
+    assignFiltrationState: (state, action) => {
+      state.page = +action.payload.page;
+      state.category = +action.payload.category;
+      state.sortBy = action.payload.sortBy;
+      state.sortRuName = action.payload.sortRuName;
+      state.order = action.payload.order;
     },
   },
 });
 
-export const { currentPageChanged, activeCategoryIdChanged, activeSortingTypeChanged } =
-  filtrationSlice.actions;
+export const {
+  pageChanged,
+  categoryChanged,
+  sortByChanged,
+  changeLimit,
+  filterChanged,
+  assignFiltrationState,
+} = filtrationSlice.actions;
 export default filtrationSlice.reducer;
