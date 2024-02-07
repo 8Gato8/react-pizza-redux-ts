@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -8,6 +8,8 @@ import { sortingFilters } from '../utils/constants';
 
 function Sort() {
   const dispatch = useDispatch();
+
+  const sortRef = useRef(null);
 
   const { sortBy, sortRuName, order } = useSelector((state) => state.filtration);
 
@@ -21,8 +23,22 @@ function Sort() {
     setIsSortingPopupOpen(false);
   };
 
+  useEffect(() => {
+    const handleClickOutsideSort = (event) => {
+      if (!event.composedPath().includes(sortRef.current)) {
+        setIsSortingPopupOpen(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleClickOutsideSort);
+
+    return () => {
+      document.body.removeEventListener('click', handleClickOutsideSort);
+    };
+  }, []);
+
   return (
-    <article className="sort">
+    <article ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
