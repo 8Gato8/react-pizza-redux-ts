@@ -1,11 +1,42 @@
 import { useState } from 'react';
 
-function Pizza({ imageUrl, title, sizes, price, types }) {
+import { useDispatch, useSelector } from 'react-redux';
+
+import { pizzaAdded } from '../../features/cart/cartSlice';
+
+function Pizza({ id, imageUrl, title, sizes, price, types }) {
+  const dispatch = useDispatch();
+
   const typeNames = ['тонкое', 'традиционное'];
 
-  const [activeSizeIndex, setActiveSizeIndex] = useState(0);
+  const [activeSize, setActiveSize] = useState(0);
 
   const [activeType, setActiveType] = useState(0);
+
+  const samePizza = useSelector((state) =>
+    state.cart.pizzas.find(
+      (pizza) =>
+        pizza.price === price &&
+        pizza.id === id &&
+        pizza.type === typeNames[activeType] &&
+        pizza.size === sizes[activeSize],
+    ),
+  );
+
+  const count = samePizza?.count || 0;
+
+  const onAddPizzaToCart = () => {
+    const pizza = {
+      id,
+      imageUrl,
+      title,
+      price,
+      type: typeNames[activeType],
+      size: sizes[activeSize],
+    };
+
+    dispatch(pizzaAdded(pizza));
+  };
 
   return (
     <article className="pizza-block">
@@ -26,8 +57,8 @@ function Pizza({ imageUrl, title, sizes, price, types }) {
           {sizes.map((size, index) => (
             <li
               key={index}
-              onClick={() => setActiveSizeIndex(index)}
-              className={`${activeSizeIndex === index ? 'active' : ''}`}>
+              onClick={() => setActiveSize(index)}
+              className={`${activeSize === index ? 'active' : ''}`}>
               {size}
             </li>
           ))}
@@ -35,7 +66,7 @@ function Pizza({ imageUrl, title, sizes, price, types }) {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <button className="button button--outline button--add">
+        <button onClick={onAddPizzaToCart} className="button button--outline button--add">
           <svg
             width="12"
             height="12"
@@ -48,7 +79,7 @@ function Pizza({ imageUrl, title, sizes, price, types }) {
             />
           </svg>
           <span>Добавить</span>
-          <i>0</i>
+          <i>{count}</i>
         </button>
       </div>
     </article>
