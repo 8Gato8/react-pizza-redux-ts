@@ -41,14 +41,15 @@ const cartSlice = createSlice({
       state.totalCost -= action.payload.price;
     },
     pizzaRemoved: (state, action) => {
-      /* state.pizzas = state.pizzas.filter(
-        (pizza) =>
+      state.pizzas = state.pizzas.filter((pizza) => {
+        return !(
           pizza.price === action.payload.price &&
           pizza.type === action.payload.type &&
           pizza.size === action.payload.size &&
           pizza.price === action.payload.price &&
-          pizza.id === action.payload.id,
-      ); */
+          pizza.id === action.payload.id
+        );
+      });
       state.totalCost -= action.payload.price * action.payload.count;
     },
     allPizzasRemoved: (state) => {
