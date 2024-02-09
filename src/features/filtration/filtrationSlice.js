@@ -4,7 +4,7 @@ import { PAGE_LIMIT } from '../../utils/constants';
 
 const initialState = {
   page: 1,
-  category: 0,
+  category: null,
   sortBy: 'rating',
   sortRuName: 'большей популярности',
   order: 'desc',

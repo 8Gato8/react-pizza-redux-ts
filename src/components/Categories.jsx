@@ -10,7 +10,9 @@ function Сategories() {
   const category = useSelector((state) => state.filtration.category);
 
   const onCategoryClick = (categoryId) => {
-    dispatch(categoryChanged(categoryId));
+    console.log(category);
+    const value = categoryId !== 0 ? categoryId : null;
+    dispatch(categoryChanged(value));
   };
 
   return (
@@ -18,7 +20,7 @@ function Сategories() {
       <ul>
         {categoriesNames.map((categoryName, index) => (
           <li
-            className={`${category === index ? 'active' : ''}`}
+            className={`${category === index || (!category && index === 0) ? 'active' : ''}`}
             onClick={() => onCategoryClick(index)}
             key={index}>
             {categoryName}
