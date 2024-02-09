@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import qs from 'qs';
@@ -11,10 +11,7 @@ import Sort from '../components/Sort';
 import Pizza from '../components/Pizza';
 import Pagination from '../components/Pagination';
 
-import { getPizzas } from '../utils/pizzasApi';
-/* import { sortingFilters } from '../utils/constants'; */
-
-/* import { getNewPizzas } from '../features/pizzas/pizzasSlice'; */
+import { fetchPizzas } from '../features/pizzas/pizzasSlice';
 
 import { pageChanged, assignFiltrationState } from '../features/filtration/filtrationSlice';
 
@@ -25,17 +22,10 @@ function Home() {
   const navigate = useNavigate();
   const isSearchDone = useRef(false);
   const isMounted = useRef(false);
-  /* const pizzas = useSelector((state) => state.pizzas); */
 
-  const page = useSelector((state) => state.filtration.page);
+  const { pizzas, pizzasStatus, error } = useSelector((state) => state.pizzas);
 
-  const filter = useSelector((state) => state.filtration.filter);
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [pizzas, setPizzas] = useState([]);
-
-  const { category, sortBy, order, limit } = useSelector((state) => state.filtration);
-  /* const filtration = useSelector((state) => state.filtration); */
+  const { page, category, sortBy, order, limit, filter } = useSelector((state) => state.filtration);
 
   const renderPizzas = (pizzas) => {
     if (pizzas) {
@@ -52,15 +42,19 @@ function Home() {
     dispatch(pageChanged(newPage));
   };
 
-  const getNewPizzas = async (newParams) => {
-    try {
-      setIsLoading(true);
-      const pizzas = await getPizzas(newParams);
-      setPizzas(pizzas);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
+  const renderContent = () => {
+    switch (pizzasStatus) {
+      case 'loading':
+        return <section className="content__items">{renderSkeletons()}</section>;
+      case 'succeeded':
+        return <section className="content__items">{renderPizzas(pizzas)}</section>;
+      case 'failed':
+        return (
+          <section className="content__error-info">
+            <h2>Произошла ошибка 😕</h2>
+            <p>Причина: {error}</p>
+          </section>
+        );
     }
   };
 
@@ -107,22 +101,17 @@ function Home() {
       }
 
       const stringifiedData = qs.stringify(data);
-      getNewPizzas(stringifiedData);
-      /* getNewPizzas(data); */
+
+      dispatch(fetchPizzas(stringifiedData));
+
       if (isMounted.current) {
         navigate(`?${stringifiedData}`);
       }
-      /* dispatch(getNewPizzas()); */
     }
 
     isMounted.current = true;
     isSearchDone.current = false;
-  }, [category, sortBy, filter, page, order, navigate, limit /* , dispatch */]);
-
-  /* useEffect(() => {
-    const queryStr = qs.stringify();
-
-  }, []); */
+  }, [category, sortBy, filter, page, order, navigate, limit, dispatch]);
 
   return (
     <main className="container">
@@ -131,10 +120,7 @@ function Home() {
         <Sort />
       </article>
       <h2 className="content__title">Все пиццы</h2>
-      <section className="content__items">
-        {isLoading ? renderSkeletons() : renderPizzas(pizzas)}
-        {/* {pizzas.status !== 'suceedeed' ? renderSkeletons() : renderPizzas(pizzas.pizzas)} */}
-      </section>
+      {renderContent()}
       <Pagination currentPage={page} onPageChange={onPageChange} />
     </main>
   );

@@ -3,11 +3,11 @@ import { getPizzas } from '../../utils/pizzasApi';
 
 const initialState = {
   pizzas: [],
-  status: 'idle',
+  pizzasStatus: 'idle',
   error: '',
 };
 
-export const getNewPizzas = createAsyncThunk('pizzas/fetchPizzas', async (newParams) => {
+export const fetchPizzas = createAsyncThunk('pizzas/fetchPizzas', async (newParams) => {
   return await getPizzas(newParams);
 });
 
@@ -16,16 +16,18 @@ const pizzasSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(getNewPizzas.pending, (state) => {
-        state.status = 'fetching';
+      .addCase(fetchPizzas.pending, (state) => {
+        state.pizzasStatus = 'loading';
+        state.pizzas = [];
       })
-      .addCase(getNewPizzas.fulfilled, (state, action) => {
-        state.status = 'suceedeed';
+      .addCase(fetchPizzas.fulfilled, (state, action) => {
         state.pizzas = action.payload;
+        state.pizzasStatus = 'succeeded';
       })
-      .addCase(getNewPizzas.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error;
+      .addCase(fetchPizzas.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.pizzasStatus = 'failed';
+        state.pizzas = [];
       });
   },
 });

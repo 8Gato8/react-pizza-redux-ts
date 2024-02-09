@@ -24,6 +24,7 @@ const makeRequest = async (url /* , config, data */) => {
       console.log('Error', error.message);
     }
     console.log(error.config);
+    return Promise.reject(error);
   }
 };
 
