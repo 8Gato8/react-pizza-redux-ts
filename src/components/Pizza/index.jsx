@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { pizzaAdded } from '../../features/cart/cartSlice';
+import { cartItemAdded, selectCartItemByParams } from '../../features/cart/cartSlice';
 
 function Pizza({ id, imageUrl, title, sizes, price, types }) {
   const dispatch = useDispatch();
@@ -13,20 +13,19 @@ function Pizza({ id, imageUrl, title, sizes, price, types }) {
 
   const [activeType, setActiveType] = useState(0);
 
-  const samePizza = useSelector((state) =>
-    state.cart.pizzas.find(
-      (pizza) =>
-        pizza.price === price &&
-        pizza.id === id &&
-        pizza.type === typeNames[activeType] &&
-        pizza.size === sizes[activeSize],
-    ),
+  const sameItem = useSelector((state) =>
+    selectCartItemByParams(state.cart, {
+      id,
+      price,
+      type: typeNames[activeType],
+      size: sizes[activeSize],
+    }),
   );
 
-  const count = samePizza?.count || 0;
+  const count = sameItem?.count || 0;
 
-  const onAddPizzaToCart = () => {
-    const pizza = {
+  const onAddCartItemToCart = () => {
+    const cartItem = {
       id,
       imageUrl,
       title,
@@ -35,7 +34,7 @@ function Pizza({ id, imageUrl, title, sizes, price, types }) {
       size: sizes[activeSize],
     };
 
-    dispatch(pizzaAdded(pizza));
+    dispatch(cartItemAdded(cartItem));
   };
 
   return (
@@ -66,7 +65,7 @@ function Pizza({ id, imageUrl, title, sizes, price, types }) {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <button onClick={onAddPizzaToCart} className="button button--outline button--add">
+        <button onClick={onAddCartItemToCart} className="button button--outline button--add">
           <svg
             width="12"
             height="12"

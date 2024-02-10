@@ -1,45 +1,26 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { pizzaAdded, pizzaNumberDecreased, pizzaRemoved } from '../features/cart/cartSlice';
+import {
+  cartItemAdded,
+  cartItemNumberDecreased,
+  cartItemRemoved,
+} from '../features/cart/cartSlice';
 
-function CartItem({ id, title, price, size, type, count, imageUrl }) {
+function CartItem(cartItem) {
+  const { title, price, size, type, count, imageUrl } = cartItem;
+
   const dispatch = useDispatch();
 
   const onIncreaseNumber = () => {
-    const pizza = {
-      id,
-      imageUrl,
-      title,
-      price,
-      type,
-      size,
-    };
-    dispatch(pizzaAdded(pizza));
+    dispatch(cartItemAdded(cartItem));
   };
 
   const onDecreaseNumber = () => {
-    const pizza = {
-      id,
-      imageUrl,
-      title,
-      price,
-      type,
-      size,
-    };
-    dispatch(pizzaNumberDecreased(pizza));
+    dispatch(cartItemNumberDecreased(cartItem));
   };
 
   const onRemoveItem = () => {
-    const pizza = {
-      id,
-      imageUrl,
-      title,
-      price,
-      type,
-      size,
-      count,
-    };
-    dispatch(pizzaRemoved(pizza));
+    dispatch(cartItemRemoved(cartItem));
   };
 
   return (

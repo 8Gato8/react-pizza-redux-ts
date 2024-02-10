@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { sortByChanged } from '../features/filtration/filtrationSlice';
+import { sortByChanged, selectFiltration } from '../features/filtration/filtrationSlice';
 
 import { sortingFilters } from '../utils/constants';
 
@@ -11,7 +11,7 @@ function Sort() {
 
   const sortRef = useRef(null);
 
-  const { sortBy, sortRuName, order } = useSelector((state) => state.filtration);
+  const { sortBy, sortRuName, order } = useSelector(selectFiltration);
 
   const [isSortingPopupOpen, setIsSortingPopupOpen] = useState(false);
 

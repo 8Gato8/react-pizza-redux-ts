@@ -6,14 +6,10 @@ import Search from './Search';
 
 import { useSelector } from 'react-redux';
 
-function Header() {
-  const { pizzas, totalCost } = useSelector((state) => state.cart);
+import { selectCart } from '../features/cart/cartSlice';
 
-  const count = useSelector(() =>
-    pizzas.reduce((sum, pizza) => {
-      return pizza.count + sum;
-    }, 0),
-  );
+function Header() {
+  const { totalCost, totalCount } = useSelector(selectCart);
 
   return (
     <section className="header">
@@ -62,7 +58,7 @@ function Header() {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>{count}</span>
+            <span>{totalCount}</span>
           </Link>
         </div>
       </div>

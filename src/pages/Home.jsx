@@ -13,7 +13,11 @@ import Pagination from '../components/Pagination';
 
 import { fetchPizzas } from '../features/pizzas/pizzasSlice';
 
-import { pageChanged, assignFiltrationState } from '../features/filtration/filtrationSlice';
+import {
+  pageChanged,
+  assignFiltrationState,
+  selectFiltration,
+} from '../features/filtration/filtrationSlice';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -25,7 +29,7 @@ function Home() {
 
   const { pizzas, pizzasStatus, error } = useSelector((state) => state.pizzas);
 
-  const { page, category, sortBy, order, limit, filter } = useSelector((state) => state.filtration);
+  const { page, category, sortBy, order, limit, filter } = useSelector(selectFiltration);
 
   const renderPizzas = (pizzas) => {
     if (pizzas) {

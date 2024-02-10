@@ -43,6 +43,8 @@ const filtrationSlice = createSlice({
   },
 });
 
+export const selectFiltration = (state) => state.filtration;
+
 export const {
   pageChanged,
   categoryChanged,

@@ -5,23 +5,18 @@ import EmptyCart from '../components/EmptyCart';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { allPizzasRemoved } from '../features/cart/cartSlice';
+import { allCartItemsRemoved, selectCart } from '../features/cart/cartSlice';
 
 function Cart() {
   const dispatch = useDispatch();
-  const { pizzas, totalCost } = useSelector((state) => state.cart);
 
-  const count = useSelector(() =>
-    pizzas.reduce((sum, pizza) => {
-      return pizza.count + sum;
-    }, 0),
-  );
+  const { cartItems, totalCost, totalCount } = useSelector(selectCart);
 
-  const onRemoveAllPizzas = () => {
-    dispatch(allPizzasRemoved());
+  const onRemoveAllCartItems = () => {
+    dispatch(allCartItemsRemoved());
   };
 
-  if (pizzas.length < 1) {
+  if (cartItems.length < 1) {
     return <EmptyCart />;
   }
 
@@ -60,7 +55,7 @@ function Cart() {
             </svg>
             Корзина
           </h2>
-          <button onClick={onRemoveAllPizzas} className="cart__clear">
+          <button onClick={onRemoveAllCartItems} className="cart__clear">
             <svg
               width="20"
               height="20"
@@ -101,15 +96,15 @@ function Cart() {
           </button>
         </div>
         <div className="content__items">
-          {pizzas.map((pizza, index) => (
-            <CartItem key={index} {...pizza} />
+          {cartItems.map((cartItem, index) => (
+            <CartItem key={index} {...cartItem} />
           ))}
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
             <span>
               {' '}
-              Всего пицц: <b>{count} шт.</b>{' '}
+              Всего пицц: <b>{totalCount} шт.</b>{' '}
             </span>
             <span>
               {' '}

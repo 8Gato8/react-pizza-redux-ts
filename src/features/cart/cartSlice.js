@@ -1,64 +1,76 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  pizzas: [],
+  cartItems: [],
   totalCost: 0,
+  totalCount: 0,
+};
+
+export const selectCartItemByParams = (state, item) => {
+  return state.cartItems.find(
+    (cartItem) =>
+      cartItem.price === item.price &&
+      cartItem.id === item.id &&
+      cartItem.type === item.type &&
+      cartItem.size === item.size,
+  );
+};
+
+const selectItemsWithoutRemovedItem = (state, item) => {
+  return state.cartItems.filter((cartItem) => {
+    return !(
+      cartItem.price === item.price &&
+      cartItem.id === item.id &&
+      cartItem.type === item.type &&
+      cartItem.size === item.size
+    );
+  });
 };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    pizzaAdded: (state, action) => {
-      const sameItem = state.pizzas.find(
-        (pizza) =>
-          pizza.price === action.payload.price &&
-          pizza.id === action.payload.id &&
-          pizza.type === action.payload.type &&
-          pizza.size === action.payload.size,
-      );
+    cartItemAdded: (state, action) => {
+      const sameItem = selectCartItemByParams(state, action.payload);
 
       if (sameItem) {
         sameItem.count++;
       } else {
-        state.pizzas.push({ ...action.payload, count: 1 });
+        state.cartItems.push({ ...action.payload, count: 1 });
       }
 
-      state.totalCost = state.pizzas.reduce((sum, pizza) => {
-        return pizza.price * pizza.count + sum;
+      state.totalCost = state.cartItems.reduce((sum, cartItem) => {
+        return cartItem.price * cartItem.count + sum;
+      }, 0);
+
+      state.totalCount = state.cartItems.reduce((sum, cartItem) => {
+        return cartItem.count + sum;
       }, 0);
     },
-    pizzaNumberDecreased: (state, action) => {
-      const sameItem = state.pizzas.find(
-        (pizza) =>
-          pizza.price === action.payload.price &&
-          pizza.id === action.payload.id &&
-          pizza.type === action.payload.type &&
-          pizza.size === action.payload.size,
-      );
+    cartItemNumberDecreased: (state, action) => {
+      const sameItem = selectCartItemByParams(state, action.payload);
+
       sameItem.count--;
 
       state.totalCost -= action.payload.price;
+      state.totalCount--;
     },
-    pizzaRemoved: (state, action) => {
-      state.pizzas = state.pizzas.filter((pizza) => {
-        return !(
-          pizza.price === action.payload.price &&
-          pizza.type === action.payload.type &&
-          pizza.size === action.payload.size &&
-          pizza.price === action.payload.price &&
-          pizza.id === action.payload.id
-        );
-      });
+    cartItemRemoved: (state, action) => {
+      state.cartItems = selectItemsWithoutRemovedItem(state, action.payload);
       state.totalCost -= action.payload.price * action.payload.count;
+      state.totalCount -= action.payload.count;
     },
-    allPizzasRemoved: (state) => {
-      state.pizzas = [];
+    allCartItemsRemoved: (state) => {
+      state.cartItems = [];
       state.totalCost = 0;
+      state.totalCount = 0;
     },
   },
 });
 
-export const { pizzaAdded, pizzaNumberDecreased, pizzaRemoved, allPizzasRemoved } =
+export const selectCart = (state) => state.cart;
+
+export const { cartItemAdded, cartItemNumberDecreased, cartItemRemoved, allCartItemsRemoved } =
   cartSlice.actions;
 export default cartSlice.reducer;
