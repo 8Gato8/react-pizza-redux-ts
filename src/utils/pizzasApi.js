@@ -25,3 +25,7 @@ const makeRequest = async (url) => {
 export const getPizzas = (params) => {
   return makeRequest(`${BASE_URL}/items?${params}`);
 };
+
+export const getPizzaById = (id) => {
+  return makeRequest(`${BASE_URL}/items/${id}`);
+};

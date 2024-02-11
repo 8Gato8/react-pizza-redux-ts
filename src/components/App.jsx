@@ -7,6 +7,7 @@ import Header from './Header';
 import Home from '../pages/Home';
 import NotFound from '../pages/NotFound';
 import Cart from '../pages/Cart';
+import SinglePizza from '../pages/SinglePizza';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/items/pizza/:id" element={<SinglePizza />} />
           </Routes>
         </div>
       </div>

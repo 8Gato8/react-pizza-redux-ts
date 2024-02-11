@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate /* , useLocation */ } from 'react-router-dom';
 
 import qs from 'qs';
 
@@ -24,6 +24,8 @@ import { useSelector, useDispatch } from 'react-redux';
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  /* const { pathname } = useLocation(); */
+
   const isSearchDone = useRef(false);
   const isMounted = useRef(false);
 
@@ -78,7 +80,7 @@ function Home() {
 
       isSearchDone.current = true;
     }
-  }, [dispatch]);
+  }, [dispatch /* , pathname */]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
