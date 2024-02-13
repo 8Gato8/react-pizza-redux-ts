@@ -80,7 +80,7 @@ function Home() {
 
       isSearchDone.current = true;
     }
-  }, [dispatch /* , pathname */]);
+  }, [dispatch]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

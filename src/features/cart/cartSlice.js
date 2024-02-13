@@ -1,10 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 
 const initialState = {
   cartItems: [],
   totalCost: 0,
   totalCount: 0,
 };
+
+const selectItemsWithoutRemovedItem = createSelector(
+  [(state) => state.cartItems, (state, item) => item],
+  (cartItems, item) => {
+    return cartItems.filter((cartItem) => {
+      return !(
+        cartItem.price === item.price &&
+        cartItem.id === item.id &&
+        cartItem.type === item.type &&
+        cartItem.size === item.size
+      );
+    });
+  },
+);
 
 export const selectCartItemByParams = (state, item) => {
   return state.cartItems.find(
@@ -14,17 +28,6 @@ export const selectCartItemByParams = (state, item) => {
       cartItem.type === item.type &&
       cartItem.size === item.size,
   );
-};
-
-const selectItemsWithoutRemovedItem = (state, item) => {
-  return state.cartItems.filter((cartItem) => {
-    return !(
-      cartItem.price === item.price &&
-      cartItem.id === item.id &&
-      cartItem.type === item.type &&
-      cartItem.size === item.size
-    );
-  });
 };
 
 const cartSlice = createSlice({

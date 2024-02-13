@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
@@ -6,7 +7,7 @@ import {
   cartItemRemoved,
 } from '../features/cart/cartSlice';
 
-function CartItem(cartItem) {
+const CartItem = memo(function CartItem(cartItem) {
   const { title, price, size, type, count, imageUrl } = cartItem;
 
   const dispatch = useDispatch();
@@ -102,6 +103,6 @@ function CartItem(cartItem) {
       </div>
     </article>
   );
-}
+});
 
 export default CartItem;
