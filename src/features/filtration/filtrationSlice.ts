@@ -1,8 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+import store from '../../app/store';
 import { PAGE_LIMIT } from '../../utils/constants';
 
-const initialState = {
+interface InitialStateInterface {
+  page: number;
+  category: null | number;
+  sortBy: string;
+  sortRuName: string;
+  order: string;
+  limit: number;
+  filter: string;
+}
+
+const initialState: InitialStateInterface = {
   page: 1,
   category: null,
   sortBy: 'rating',
@@ -43,7 +53,7 @@ const filtrationSlice = createSlice({
   },
 });
 
-export const selectFiltration = (state) => state.filtration;
+export const selectFiltration = (state: any) => state.filtration;
 
 export const {
   pageChanged,

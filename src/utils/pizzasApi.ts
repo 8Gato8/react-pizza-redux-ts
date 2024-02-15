@@ -2,7 +2,7 @@ const BASE_URL = 'https://6556133c84b36e3a431ef5af.mockapi.io';
 
 import axios from 'axios';
 
-const makeRequest = async (url) => {
+const makeRequest = async (url: string) => {
   try {
     const response = await axios.get(url);
 
@@ -22,10 +22,10 @@ const makeRequest = async (url) => {
   }
 };
 
-export const getPizzas = (params) => {
+export const getPizzas = (params: string) => {
   return makeRequest(`${BASE_URL}/items?${params}`);
 };
 
-export const getPizzaById = (id) => {
+export const getPizzaById = (id: number) => {
   return makeRequest(`${BASE_URL}/items/${id}`);
 };

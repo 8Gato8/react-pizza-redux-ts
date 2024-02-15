@@ -1,18 +1,26 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getPizzaById } from '../../utils/pizzasApi';
 
-const initialState = {
+interface InitialStateInterface {
+  singlePizza: any;
+  singlePizzaStatus: string;
+  error: string | undefined;
+}
+
+const initialState: InitialStateInterface = {
   singlePizza: {},
   singlePizzaStatus: 'idle',
   error: '',
 };
-export const fetchPizzaById = createAsyncThunk('pizzas/fetchPizzaById', async (id) => {
+
+export const fetchPizzaById = createAsyncThunk('pizzas/fetchPizzaById', async (id: number) => {
   return await getPizzaById(id);
 });
 
 const singlePizzaSlice = createSlice({
   name: 'singlePizza',
   initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchPizzaById.pending, (state) => {

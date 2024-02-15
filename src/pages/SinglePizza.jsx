@@ -38,14 +38,6 @@ function SinglePizza() {
   }, [dispatch, id]);
 
   return <section className="container">{renderContent()}</section>;
-
-  /* return (
-    <section className="container">
-      <img src={imageUrl} alt="Pizza" />
-      <h2>{title}</h2>
-      <p>{price}</p>
-    </section>
-  ); */
 }
 
 export default SinglePizza;
