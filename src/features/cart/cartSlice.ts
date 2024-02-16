@@ -57,7 +57,7 @@ const cartSlice = createSlice({
       const sameItem = selectCartItemByParams(state, action.payload);
 
       if (sameItem !== undefined) {
-        sameItem!.count++;
+        sameItem.count++;
       } else {
         state.cartItems.push({ ...action.payload, count: 1 });
       }
