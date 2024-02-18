@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import store from '../../app/store';
 import { PAGE_LIMIT } from '../../utils/constants';
 
 interface InitialStateInterface {

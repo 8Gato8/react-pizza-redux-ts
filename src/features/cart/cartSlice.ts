@@ -11,7 +11,7 @@ interface CartItemInterface {
 }
 
 interface InitialStateInterface {
-  cartItems: Array<any>;
+  cartItems: Array<CartItemInterface>;
   totalCost: number;
   totalCount: number;
 }
@@ -37,7 +37,7 @@ const selectItemsWithoutRemovedItem = createSelector(
 );
 
 export const selectCartItemByParams = (
-  state: any,
+  state,
   item: CartItemInterface,
 ): undefined | CartItemInterface => {
   return state.cartItems.find(

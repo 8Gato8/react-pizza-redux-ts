@@ -9,7 +9,7 @@ function Сategories() {
 
   const category = useSelector((state) => state.filtration.category);
 
-  const onCategoryClick = (categoryId) => {
+  const onCategoryClick = (categoryId: number) => {
     const value = categoryId !== 0 ? categoryId : null;
     dispatch(categoryChanged(value));
   };
