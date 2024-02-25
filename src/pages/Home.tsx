@@ -44,7 +44,7 @@ function Home() {
     return [...new Array(4)].map((_, index) => <Skeleton key={index} />);
   };
 
-  const onPageChange = (newPage) => {
+  const onPageChange = (newPage: number) => {
     dispatch(pageChanged(newPage));
   };
 
