@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState } from 'react';
+import { useRef, useCallback, useState, ChangeEvent } from 'react';
 
 import { filterChanged } from '../../features/filtration/filtrationSlice';
 
@@ -10,9 +10,11 @@ import searchIcon from '../../assets/img/search-icon.svg';
 import clearIcon from '../../assets/img/clear-icon.svg';
 import { useDispatch } from 'react-redux';
 
+type ChangeInputFunctionType = (event: ChangeEvent<HTMLInputElement>) => void;
+
 function Search() {
   const dispatch = useDispatch();
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [localSearchValue, setLocalSearchValue] = useState('');
 
@@ -25,7 +27,7 @@ function Search() {
     [],
   );
 
-  const onChangeInput = (event) => {
+  const onChangeInput: ChangeInputFunctionType = (event) => {
     setLocalSearchValue(event.target.value);
     updateSearchValue(event.target.value);
   };
@@ -33,7 +35,7 @@ function Search() {
   const onClearClick = () => {
     dispatch(filterChanged(''));
     setLocalSearchValue('');
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   return (
