@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 import EmptyCart from '../components/EmptyCart';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 import { allCartItemsRemoved, selectCart } from '../features/cart/cartSlice';
 
-function Cart() {
-  const dispatch = useDispatch();
+import { CartItemInterface } from '../types/cartItemTypes';
 
-  const { cartItems, totalCost, totalCount } = useSelector(selectCart);
+function Cart() {
+  const dispatch = useAppDispatch();
+
+  const { cartItems, totalCost, totalCount } = useAppSelector(selectCart);
 
   const onRemoveAllCartItems = () => {
     dispatch(allCartItemsRemoved());
@@ -96,7 +98,7 @@ function Cart() {
           </button>
         </div>
         <div className="content__items">
-          {cartItems.map((cartItem, index) => (
+          {cartItems.map((cartItem: CartItemInterface, index: number) => (
             <CartItem key={index} {...cartItem} />
           ))}
         </div>

@@ -1,15 +1,15 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 import { categoryChanged } from '../features/filtration/filtrationSlice';
 
 const categoriesNames = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 
 function Сategories() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const category = useSelector((state) => state.filtration.category);
+  const category = useAppSelector((state) => state.filtration.category);
 
-  const onCategoryClick = (categoryId: number) => {
+  const onCategoryClick = (categoryId: number | null) => {
     const value = categoryId !== 0 ? categoryId : null;
     dispatch(categoryChanged(value));
   };

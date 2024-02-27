@@ -11,7 +11,9 @@ import Sort from '../components/Sort';
 import Pizza from '../components/Pizza';
 import Pagination from '../components/Pagination';
 
-import { fetchPizzas } from '../features/pizzas/pizzasSlice';
+import { fetchPizzas, selectPizzas } from '../features/pizzas/pizzasSlice';
+
+import { AssignFiltrationInterface } from '../features/filtration/filtrationSlice';
 
 import {
   pageChanged,
@@ -19,21 +21,32 @@ import {
   selectFiltration,
 } from '../features/filtration/filtrationSlice';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../app/hooks';
+
+import { PizzaInterface } from '../types/pizzasTypes';
+
+interface DataInterface {
+  sortBy: string;
+  page: number;
+  limit: number;
+  filter?: string;
+  category?: null | number;
+  order?: string;
+}
 
 function Home() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   /* const { pathname } = useLocation(); */
 
-  const isSearchDone = useRef(false);
+  /* const isSearchDone = useRef(false); */
   const isMounted = useRef(false);
 
-  const { pizzas, pizzasStatus, error } = useSelector((state) => state.pizzas);
+  const { pizzas, pizzasStatus, error } = useAppSelector(selectPizzas);
 
-  const { page, category, sortBy, order, limit, filter } = useSelector(selectFiltration);
+  const { page, category, sortBy, order, limit, filter } = useAppSelector(selectFiltration);
 
-  const renderPizzas = (pizzas) => {
+  const renderPizzas = (pizzas: Array<PizzaInterface>) => {
     if (pizzas) {
       const pizzasToRender = pizzas.map((pizza) => <Pizza key={pizza.id} {...pizza} />);
       return pizzasToRender;
@@ -67,18 +80,19 @@ function Home() {
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
+
       const sort = sortingFilters.find(
         (obj) => obj.sortBy === params.sortBy && obj.order === params.order,
       );
 
-      dispatch(
-        assignFiltrationState({
-          ...params,
-          ...sort,
-        }),
-      );
+      const newFiltration = {
+        ...params,
+        ...sort,
+      } as AssignFiltrationInterface;
 
-      isSearchDone.current = true;
+      dispatch(assignFiltrationState(newFiltration));
+
+      /* isSearchDone.current = true; */
     }
   }, [dispatch]);
 
@@ -87,36 +101,36 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    if (!isSearchDone.current) {
-      const data = {
-        sortBy,
-        page,
-        limit,
-      };
+    /* if (!isSearchDone.current) { */
+    const data: DataInterface = {
+      sortBy,
+      page,
+      limit,
+    };
 
-      if (filter) {
-        data.filter = filter;
-      }
-
-      if (category) {
-        data.category = category;
-      }
-
-      if (order) {
-        data.order = order;
-      }
-
-      const stringifiedData = qs.stringify(data);
-
-      dispatch(fetchPizzas(stringifiedData));
-
-      if (isMounted.current) {
-        navigate(`?${stringifiedData}`);
-      }
+    if (filter) {
+      data.filter = filter;
     }
 
+    if (category) {
+      data.category = category;
+    }
+
+    if (order) {
+      data.order = order;
+    }
+
+    const stringifiedData = qs.stringify(data);
+
+    dispatch(fetchPizzas(stringifiedData));
+
+    if (isMounted.current) {
+      navigate(`?${stringifiedData}`);
+    }
+    /* } */
+
     isMounted.current = true;
-    isSearchDone.current = false;
+    /* isSearchDone.current = false; */
   }, [category, sortBy, filter, page, order, navigate, limit, dispatch]);
 
   return (

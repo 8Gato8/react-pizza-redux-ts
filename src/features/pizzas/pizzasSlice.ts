@@ -1,24 +1,17 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import type { RootState } from '../../app/store';
+
 import { getPizzas } from '../../utils/pizzasApi';
 
-interface PizzasInterface {
-  id: string;
-  imageUrl: string;
-  title: string;
-  types: number[];
-  sizes: number[];
-  price: number;
-  category: number;
-  rating: number;
-}
+import { PizzaInterface } from '../../types/pizzasTypes';
 
-interface InitialStateInterface {
-  pizzas: Array<any> | [];
+interface PizzasInterface {
+  pizzas: Array<PizzaInterface>;
   pizzasStatus: string;
   error: string | undefined;
 }
 
-const initialState: InitialStateInterface = {
+const initialState: PizzasInterface = {
   pizzas: [],
   pizzasStatus: 'idle',
   error: '',
@@ -38,7 +31,7 @@ const pizzasSlice = createSlice({
         state.pizzasStatus = 'loading';
         state.pizzas = [];
       })
-      .addCase(fetchPizzas.fulfilled, (state, action) => {
+      .addCase(fetchPizzas.fulfilled, (state, action: PayloadAction<Array<PizzaInterface>>) => {
         state.pizzas = action.payload;
         state.pizzasStatus = 'succeeded';
       })
@@ -49,5 +42,7 @@ const pizzasSlice = createSlice({
       });
   },
 });
+
+export const selectPizzas = (state: RootState) => state.pizzas;
 
 export default pizzasSlice.reducer;

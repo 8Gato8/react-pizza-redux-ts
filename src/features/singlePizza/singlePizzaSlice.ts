@@ -1,13 +1,17 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import type { RootState } from '../../app/store';
+
 import { getPizzaById } from '../../utils/pizzasApi';
 
-interface InitialStateInterface {
-  singlePizza: any;
+import { PizzaInterface } from '../../types/pizzasTypes';
+
+interface SinglePizzaInterface {
+  singlePizza: PizzaInterface | Record<string, never>;
   singlePizzaStatus: string;
   error: string | undefined;
 }
 
-const initialState: InitialStateInterface = {
+const initialState: SinglePizzaInterface = {
   singlePizza: {},
   singlePizzaStatus: 'idle',
   error: '',
@@ -27,7 +31,7 @@ const singlePizzaSlice = createSlice({
         state.singlePizzaStatus = 'loading';
         state.singlePizza = {};
       })
-      .addCase(fetchPizzaById.fulfilled, (state, action) => {
+      .addCase(fetchPizzaById.fulfilled, (state, action: PayloadAction<PizzaInterface>) => {
         state.singlePizza = action.payload;
         state.singlePizzaStatus = 'succeeded';
       })
@@ -38,5 +42,7 @@ const singlePizzaSlice = createSlice({
       });
   },
 });
+
+export const selectSinglePizza = (state: RootState) => state.singlePizza;
 
 export default singlePizzaSlice.reducer;

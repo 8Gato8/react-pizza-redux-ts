@@ -8,12 +8,13 @@ import styles from './Search.module.scss';
 
 import searchIcon from '../../assets/img/search-icon.svg';
 import clearIcon from '../../assets/img/clear-icon.svg';
-import { useDispatch } from 'react-redux';
+
+import { useAppDispatch } from '../../app/hooks';
 
 type ChangeInputFunctionType = (event: ChangeEvent<HTMLInputElement>) => void;
 
 function Search() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [localSearchValue, setLocalSearchValue] = useState('');

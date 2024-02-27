@@ -1,21 +1,23 @@
 import { useState, useEffect, useRef } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 import { sortByChanged, selectFiltration } from '../features/filtration/filtrationSlice';
 
 import { sortingFilters } from '../utils/constants';
 
+import { SortByInterface } from '../features/filtration/filtrationSlice';
+
 function Sort() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const sortRef = useRef(null);
 
-  const { sortBy, sortRuName, order } = useSelector(selectFiltration);
+  const { sortBy, sortRuName, order } = useAppSelector(selectFiltration);
 
   const [isSortingPopupOpen, setIsSortingPopupOpen] = useState(false);
 
-  const onSortingFilterClick = (sortingType) => {
+  const onSortingFilterClick = (sortingType: SortByInterface) => {
     if (sortRuName !== sortingType.sortRuName) {
       dispatch(sortByChanged(sortingType));
     }

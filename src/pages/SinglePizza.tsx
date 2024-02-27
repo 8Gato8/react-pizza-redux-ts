@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
-import { fetchPizzaById } from '../features/singlePizza/singlePizzaSlice';
+import { fetchPizzaById, selectSinglePizza } from '../features/singlePizza/singlePizzaSlice';
 
 function SinglePizza() {
   const { id } = useParams();
 
-  const dispatch = useDispatch();
-  const { singlePizza, singlePizzaStatus, error } = useSelector((state) => state.singlePizza);
+  const dispatch = useAppDispatch();
+  const { singlePizza, singlePizzaStatus, error } = useAppSelector(selectSinglePizza);
   const { title, imageUrl, price } = singlePizza;
 
   const renderContent = () => {
@@ -34,7 +34,7 @@ function SinglePizza() {
   };
 
   useEffect(() => {
-    dispatch(fetchPizzaById(id));
+    dispatch(fetchPizzaById(Number(id)));
   }, [dispatch, id]);
 
   return <section className="container">{renderContent()}</section>;

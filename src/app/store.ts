@@ -4,7 +4,7 @@ import cartReducer from '../features/cart/cartSlice';
 import filtrationReducer from '../features/filtration/filtrationSlice';
 import singlePizzaReducer from '../features/singlePizza/singlePizzaSlice';
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
     pizzas: pizzasReducer,
     cart: cartReducer,
@@ -12,3 +12,6 @@ export default configureStore({
     singlePizza: singlePizzaReducer,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

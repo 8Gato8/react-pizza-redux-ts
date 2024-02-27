@@ -1,12 +1,16 @@
 import { useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 import { cartItemAdded, selectCartItemByParams } from '../../features/cart/cartSlice';
+
+import { CartItemInterface } from '../../types/cartItemTypes';
+import { PizzaInterface } from '../../types/pizzasTypes';
+
 import { Link } from 'react-router-dom';
 
-function Pizza({ id, imageUrl, title, sizes, price, types }) {
-  const dispatch = useDispatch();
+function Pizza({ id, imageUrl, title, sizes, price, types }: PizzaInterface) {
+  const dispatch = useAppDispatch();
 
   const typeNames = ['тонкое', 'традиционное'];
 
@@ -14,14 +18,16 @@ function Pizza({ id, imageUrl, title, sizes, price, types }) {
 
   const [activeType, setActiveType] = useState(0);
 
-  const sameItem = useSelector((state) =>
-    selectCartItemByParams(state.cart, {
+  const sameItem = useAppSelector((state): CartItemInterface | undefined => {
+    return selectCartItemByParams(state.cart, {
       id,
       price,
       type: typeNames[activeType],
       size: sizes[activeSize],
-    }),
-  );
+      imageUrl,
+      title,
+    });
+  });
 
   const count = sameItem?.count || 0;
 

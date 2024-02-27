@@ -1,5 +1,6 @@
 import { memo } from 'react';
-import { useDispatch } from 'react-redux';
+
+import { useAppDispatch } from '../app/hooks';
 
 import {
   cartItemAdded,
@@ -7,10 +8,12 @@ import {
   cartItemRemoved,
 } from '../features/cart/cartSlice';
 
-const CartItem = memo(function CartItem(cartItem) {
+import { CartItemInterface } from '../types/cartItemTypes';
+
+const CartItem = memo(function CartItem(cartItem: CartItemInterface) {
   const { title, price, size, type, count, imageUrl } = cartItem;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onIncreaseNumber = () => {
     dispatch(cartItemAdded(cartItem));
@@ -37,10 +40,10 @@ const CartItem = memo(function CartItem(cartItem) {
       </div>
       <div className="cart__item-count">
         <button
-          disabled={count < 2}
+          disabled={count! < 2}
           onClick={onDecreaseNumber}
           className={`button button--outline button--circle cart__item-count-minus ${
-            count < 2 ? 'cart__item-count-minus_disabled' : ''
+            count! < 2 ? 'cart__item-count-minus_disabled' : ''
           }`}>
           <svg
             width="10"

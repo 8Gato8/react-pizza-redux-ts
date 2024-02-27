@@ -1,7 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '../../app/store';
+
 import { PAGE_LIMIT } from '../../utils/constants';
 
-interface InitialStateInterface {
+interface FiltrationInterface {
   page: number;
   category: null | number;
   sortBy: string;
@@ -11,7 +13,23 @@ interface InitialStateInterface {
   filter: string;
 }
 
-const initialState: InitialStateInterface = {
+export interface SortByInterface {
+  sortRuName: string;
+  sortBy: string;
+  order?: string;
+}
+
+export interface AssignFiltrationInterface {
+  sortBy: string;
+  page: string;
+  limit: string;
+  filter?: string;
+  category?: string;
+  order: string;
+  sortRuName: string;
+}
+
+const initialState: FiltrationInterface = {
   page: 1,
   category: null,
   sortBy: 'rating',
@@ -25,26 +43,27 @@ const filtrationSlice = createSlice({
   name: 'filtration',
   initialState,
   reducers: {
-    pageChanged: (state, action) => {
+    pageChanged: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
     },
-    categoryChanged: (state, action) => {
+    categoryChanged: (state, action: PayloadAction<number | null>) => {
       state.category = action.payload;
     },
-    sortByChanged: (state, action) => {
+    sortByChanged: (state, action: PayloadAction<SortByInterface>) => {
       state.sortBy = action.payload.sortBy;
       state.sortRuName = action.payload.sortRuName;
-      state.order = action.payload.order;
+      if (action.payload.order !== undefined) {
+        state.order = action.payload.order;
+      }
     },
-    changeLimit: (state, action) => {
-      state.limit = action.payload.limit;
-    },
-    filterChanged: (state, action) => {
+    filterChanged: (state, action: PayloadAction<string>) => {
       state.filter = action.payload;
     },
-    assignFiltrationState: (state, action) => {
+    assignFiltrationState: (state, action: PayloadAction<AssignFiltrationInterface>) => {
       state.page = +action.payload.page;
-      state.category = +action.payload.category;
+      if (action.payload.category !== undefined) {
+        state.category = +action.payload.category;
+      }
       state.sortBy = action.payload.sortBy;
       state.sortRuName = action.payload.sortRuName;
       state.order = action.payload.order;
@@ -52,14 +71,8 @@ const filtrationSlice = createSlice({
   },
 });
 
-export const selectFiltration = (state: any) => state.filtration;
+export const selectFiltration = (state: RootState) => state.filtration;
 
-export const {
-  pageChanged,
-  categoryChanged,
-  sortByChanged,
-  changeLimit,
-  filterChanged,
-  assignFiltrationState,
-} = filtrationSlice.actions;
+export const { pageChanged, categoryChanged, sortByChanged, filterChanged, assignFiltrationState } =
+  filtrationSlice.actions;
 export default filtrationSlice.reducer;

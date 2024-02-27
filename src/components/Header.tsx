@@ -5,13 +5,13 @@ import cartIcon from '../assets/img/cart.svg';
 
 import Search from './Search';
 
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../app/hooks';
 
 import { selectCart } from '../features/cart/cartSlice';
 
 function Header() {
   const { pathname } = useLocation();
-  const { totalCost, totalCount } = useSelector(selectCart);
+  const { totalCost, totalCount } = useAppSelector(selectCart);
 
   const renderContent = () => {
     if (pathname !== '/cart') {
