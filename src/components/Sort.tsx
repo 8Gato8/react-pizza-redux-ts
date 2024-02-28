@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState /* useEffect, useRef */ } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 
@@ -8,10 +8,14 @@ import { sortingFilters } from '../utils/constants';
 
 import { SortByInterface } from '../features/filtration/filtrationSlice';
 
+import { useOutsideClick } from '../customHooks/useOutsideClick';
+
 function Sort() {
   const dispatch = useAppDispatch();
 
-  const sortRef = useRef(null);
+  const sortRef = useOutsideClick(() => {
+    setIsSortingPopupOpen(false);
+  });
 
   const { sortBy, sortRuName, order } = useAppSelector(selectFiltration);
 
@@ -24,20 +28,6 @@ function Sort() {
 
     setIsSortingPopupOpen(false);
   };
-
-  useEffect(() => {
-    const handleClickOutsideSort = (event) => {
-      if (!event.composedPath().includes(sortRef.current)) {
-        setIsSortingPopupOpen(false);
-      }
-    };
-
-    document.body.addEventListener('click', handleClickOutsideSort);
-
-    return () => {
-      document.body.removeEventListener('click', handleClickOutsideSort);
-    };
-  }, []);
 
   return (
     <article ref={sortRef} className="sort">
