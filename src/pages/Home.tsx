@@ -23,7 +23,7 @@ import {
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
-import { PizzaInterface } from '../types/pizzasTypes';
+import { PizzaInterface } from '../@types/pizzasTypes';
 
 interface DataInterface {
   sortBy: string;

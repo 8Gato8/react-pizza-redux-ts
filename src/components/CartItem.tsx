@@ -8,7 +8,7 @@ import {
   cartItemRemoved,
 } from '../features/cart/cartSlice';
 
-import { CartItemInterface } from '../types/cartItemTypes';
+import { CartItemInterface } from '../@types/cartItemTypes';
 
 const CartItem = memo(function CartItem(cartItem: CartItemInterface) {
   const { title, price, size, type, count, imageUrl } = cartItem;

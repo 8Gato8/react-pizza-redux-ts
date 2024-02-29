@@ -3,7 +3,7 @@ import type { RootState } from '../../app/store';
 
 import { getPizzaById } from '../../utils/pizzasApi';
 
-import { PizzaInterface } from '../../types/pizzasTypes';
+import { PizzaInterface } from '../../@types/pizzasTypes';
 
 interface SinglePizzaInterface {
   singlePizza: PizzaInterface | Record<string, never>;

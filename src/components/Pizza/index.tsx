@@ -4,8 +4,8 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 import { cartItemAdded, selectCartItemByParams } from '../../features/cart/cartSlice';
 
-import { CartItemInterface } from '../../types/cartItemTypes';
-import { PizzaInterface } from '../../types/pizzasTypes';
+import { CartItemInterface } from '../../@types/cartItemTypes';
+import { PizzaInterface } from '../../@types/pizzasTypes';
 
 import { Link } from 'react-router-dom';
 

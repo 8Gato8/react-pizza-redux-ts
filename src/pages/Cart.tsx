@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 import { allCartItemsRemoved, selectCart } from '../features/cart/cartSlice';
 
-import { CartItemInterface } from '../types/cartItemTypes';
+import { CartItemInterface } from '../@types/cartItemTypes';
 
 function Cart() {
   const dispatch = useAppDispatch();

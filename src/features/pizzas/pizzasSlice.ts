@@ -3,7 +3,7 @@ import type { RootState } from '../../app/store';
 
 import { getPizzas } from '../../utils/pizzasApi';
 
-import { PizzaInterface } from '../../types/pizzasTypes';
+import { PizzaInterface } from '../../@types/pizzasTypes';
 
 interface PizzasInterface {
   pizzas: Array<PizzaInterface>;
