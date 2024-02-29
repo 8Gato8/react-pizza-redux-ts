@@ -1,4 +1,4 @@
-import { useState /* useEffect, useRef */ } from 'react';
+import { useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 
@@ -6,7 +6,7 @@ import { sortByChanged, selectFiltration } from '../features/filtration/filtrati
 
 import { sortingFilters } from '../utils/constants';
 
-import { SortByInterface } from '../features/filtration/filtrationSlice';
+import { SortByInterface } from '../@types/filtrationTypes';
 
 import { useOutsideClick } from '../customHooks/useOutsideClick';
 

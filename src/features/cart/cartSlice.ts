@@ -16,7 +16,7 @@ const initialState: CartInteface = {
 };
 
 const selectItemsWithoutRemovedItem = createSelector(
-  [(state) => state.cartItems, (state, item: CartItemInterface) => item],
+  [(state) => state.cartItems, (_, item: CartItemInterface) => item],
   (cartItems, item) => {
     return cartItems.filter((cartItem: CartItemInterface) => {
       return !(

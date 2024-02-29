@@ -13,7 +13,7 @@ import Pagination from '../components/Pagination';
 
 import { fetchPizzas, selectPizzas } from '../features/pizzas/pizzasSlice';
 
-import { AssignFiltrationInterface } from '../features/filtration/filtrationSlice';
+import { AssignFiltrationInterface } from '../@types/filtrationTypes';
 
 import {
   pageChanged,

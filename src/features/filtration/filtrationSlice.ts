@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../app/store';
 
+import { SortByInterface, AssignFiltrationInterface } from '../../@types/filtrationTypes';
+
 import { PAGE_LIMIT } from '../../utils/constants';
 
 interface FiltrationInterface {
@@ -11,22 +13,6 @@ interface FiltrationInterface {
   order: string;
   limit: number;
   filter: string;
-}
-
-export interface SortByInterface {
-  sortRuName: string;
-  sortBy: string;
-  order?: string;
-}
-
-export interface AssignFiltrationInterface {
-  sortBy: string;
-  page: string;
-  limit: string;
-  filter?: string;
-  category?: string;
-  order: string;
-  sortRuName: string;
 }
 
 const initialState: FiltrationInterface = {
