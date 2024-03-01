@@ -3,11 +3,11 @@ import type { RootState } from '../../app/store';
 
 import { getPizzas } from '../../utils/pizzasApi';
 
-import { PizzaInterface } from '../../@types/pizzasTypes';
+import { PizzaInterface, PizzasStatusType } from '../../@types/pizzasTypes';
 
 interface PizzasInterface {
-  pizzas: Array<PizzaInterface>;
-  pizzasStatus: string;
+  pizzas: PizzaInterface[];
+  pizzasStatus: PizzasStatusType;
   error: string | undefined;
 }
 
@@ -31,7 +31,7 @@ const pizzasSlice = createSlice({
         state.pizzasStatus = 'loading';
         state.pizzas = [];
       })
-      .addCase(fetchPizzas.fulfilled, (state, action: PayloadAction<Array<PizzaInterface>>) => {
+      .addCase(fetchPizzas.fulfilled, (state, action: PayloadAction<PizzaInterface[]>) => {
         state.pizzas = action.payload;
         state.pizzasStatus = 'succeeded';
       })

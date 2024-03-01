@@ -40,10 +40,10 @@ const CartItem = memo(function CartItem(cartItem: CartItemInterface) {
       </div>
       <div className="cart__item-count">
         <button
-          disabled={count! < 2}
+          disabled={count < 2}
           onClick={onDecreaseNumber}
           className={`button button--outline button--circle cart__item-count-minus ${
-            count! < 2 ? 'cart__item-count-minus_disabled' : ''
+            count < 2 ? 'cart__item-count-minus_disabled' : ''
           }`}>
           <svg
             width="10"

@@ -3,11 +3,11 @@ import type { RootState } from '../../app/store';
 
 import { getPizzaById } from '../../utils/pizzasApi';
 
-import { PizzaInterface } from '../../@types/pizzasTypes';
+import { PizzaInterface, PizzasStatusType } from '../../@types/pizzasTypes';
 
 interface SinglePizzaInterface {
   singlePizza: PizzaInterface | Record<string, never>;
-  singlePizzaStatus: string;
+  singlePizzaStatus: PizzasStatusType;
   error: string | undefined;
 }
 

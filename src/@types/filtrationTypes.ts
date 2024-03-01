@@ -1,15 +1,25 @@
+export type SortByType = 'rating' | 'price' | 'title';
+export type SortRuNameType =
+  | 'большей популярности'
+  | 'меньшей популярности'
+  | 'убыванию цены'
+  | 'возрастанию цены'
+  | 'алфавиту';
+
+export type OrderType = 'desc' | 'asc';
+
 export interface SortByInterface {
-  sortRuName: string;
-  sortBy: string;
-  order?: string;
+  sortRuName: SortRuNameType;
+  sortBy: SortByType;
+  order?: OrderType;
 }
 
 export interface AssignFiltrationInterface {
-  sortBy: string;
+  sortRuName: SortRuNameType;
+  sortBy: SortByType;
   page: string;
   limit: string;
   filter?: string;
   category?: string;
-  order: string;
-  sortRuName: string;
+  order: OrderType;
 }

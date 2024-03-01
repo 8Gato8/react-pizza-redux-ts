@@ -4,12 +4,11 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 import { cartItemAdded, selectCartItemByParams } from '../../features/cart/cartSlice';
 
-import { CartItemInterface } from '../../@types/cartItemTypes';
 import { PizzaInterface } from '../../@types/pizzasTypes';
 
 import { Link } from 'react-router-dom';
 
-function Pizza({ id, imageUrl, title, sizes, price, types }: PizzaInterface) {
+function Pizza({ id, imageUrl, title, sizes, price, types, count }: PizzaInterface) {
   const dispatch = useAppDispatch();
 
   const typeNames = ['тонкое', 'традиционное'];
@@ -18,7 +17,7 @@ function Pizza({ id, imageUrl, title, sizes, price, types }: PizzaInterface) {
 
   const [activeType, setActiveType] = useState(0);
 
-  const sameItem = useAppSelector((state): CartItemInterface | undefined => {
+  const sameItem = useAppSelector((state) => {
     return selectCartItemByParams(state.cart, {
       id,
       price,
@@ -26,10 +25,11 @@ function Pizza({ id, imageUrl, title, sizes, price, types }: PizzaInterface) {
       size: sizes[activeSize],
       imageUrl,
       title,
+      count,
     });
   });
 
-  const count = sameItem?.count || 0;
+  const countInCart = sameItem?.count || 0;
 
   const onAddCartItemToCart = () => {
     const cartItem = {
@@ -39,6 +39,7 @@ function Pizza({ id, imageUrl, title, sizes, price, types }: PizzaInterface) {
       price,
       type: typeNames[activeType],
       size: sizes[activeSize],
+      count,
     };
 
     dispatch(cartItemAdded(cartItem));
@@ -87,7 +88,7 @@ function Pizza({ id, imageUrl, title, sizes, price, types }: PizzaInterface) {
             />
           </svg>
           <span>Добавить</span>
-          <i>{count}</i>
+          <i>{countInCart}</i>
         </button>
       </div>
     </article>

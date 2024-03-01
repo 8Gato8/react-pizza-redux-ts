@@ -4,7 +4,7 @@ import type { RootState } from '../../app/store';
 import { CartItemInterface } from '../../@types/cartItemTypes';
 
 export interface CartInteface {
-  cartItems: Array<CartItemInterface>;
+  cartItems: CartItemInterface[];
   totalCost: number;
   totalCount: number;
 }
@@ -50,31 +50,31 @@ export const cartSlice = createSlice({
       const sameItem = selectCartItemByParams(state, action.payload);
 
       if (sameItem !== undefined) {
-        sameItem.count!++;
+        sameItem.count++;
       } else {
         state.cartItems.push({ ...action.payload, count: 1 });
       }
 
       state.totalCost = state.cartItems.reduce((sum, cartItem: CartItemInterface) => {
-        return cartItem.price * cartItem.count! + sum;
+        return cartItem.price * cartItem.count + sum;
       }, 0);
 
       state.totalCount = state.cartItems.reduce((sum, cartItem: CartItemInterface) => {
-        return cartItem.count! + sum;
+        return cartItem.count + sum;
       }, 0);
     },
     cartItemNumberDecreased: (state, action: PayloadAction<CartItemInterface>) => {
-      const sameItem = selectCartItemByParams(state, action.payload);
+      const foundItem = selectCartItemByParams(state, action.payload);
 
-      sameItem!.count!--;
+      foundItem!.count--;
 
       state.totalCost -= action.payload.price;
       state.totalCount--;
     },
     cartItemRemoved: (state, action: PayloadAction<CartItemInterface>) => {
       state.cartItems = selectItemsWithoutRemovedItem(state, action.payload);
-      state.totalCost -= action.payload.price * action.payload.count!;
-      state.totalCount -= action.payload.count!;
+      state.totalCost -= action.payload.price * action.payload.count;
+      state.totalCount -= action.payload.count;
     },
     allCartItemsRemoved: (state) => {
       state.cartItems = [];

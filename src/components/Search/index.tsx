@@ -11,8 +11,6 @@ import clearIcon from '../../assets/img/clear-icon.svg';
 
 import { useAppDispatch } from '../../app/hooks';
 
-type ChangeInputFunctionType = (event: ChangeEvent<HTMLInputElement>) => void;
-
 function Search() {
   const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -22,13 +20,13 @@ function Search() {
   /* Лучше разобраться с debounce по-нормальному и запилить свою функцию */
 
   const updateSearchValue = useCallback(
-    debounce((str) => {
+    debounce((str: string) => {
       dispatch(filterChanged(str));
     }, 200),
     [],
   );
 
-  const onChangeInput: ChangeInputFunctionType = (event) => {
+  const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setLocalSearchValue(event.target.value);
     updateSearchValue(event.target.value);
   };

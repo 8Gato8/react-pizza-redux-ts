@@ -7,4 +7,7 @@ export interface PizzaInterface {
   price: number;
   category: number;
   rating: number;
+  count: number;
 }
+
+export type PizzasStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';

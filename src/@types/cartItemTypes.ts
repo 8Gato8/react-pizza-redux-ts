@@ -5,5 +5,5 @@ export interface CartItemInterface {
   price: number;
   type: string;
   size: number;
-  count?: number;
+  count: number;
 }
