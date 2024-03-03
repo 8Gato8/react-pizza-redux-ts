@@ -220,7 +220,13 @@ body {
             display: none;
           }
         }
-        &_disabled {
+        &:disabled {
+          cursor: default;
+
+          &:active {
+            transform: none;
+          }
+
           svg {
             path {
               fill: #d0d0d0;

@@ -10,7 +10,7 @@ import {
 
 import { CartItemInterface } from '../@types/cartItemTypes';
 
-const CartItem = memo(function CartItem(cartItem: CartItemInterface) {
+const CartItem: React.FC<CartItemInterface> = memo((cartItem: CartItemInterface) => {
   const { title, price, size, type, count, imageUrl } = cartItem;
 
   const dispatch = useAppDispatch();
@@ -42,9 +42,7 @@ const CartItem = memo(function CartItem(cartItem: CartItemInterface) {
         <button
           disabled={count < 2}
           onClick={onDecreaseNumber}
-          className={`button button--outline button--circle cart__item-count-minus ${
-            count < 2 ? 'cart__item-count-minus_disabled' : ''
-          }`}>
+          className={'button button--outline button--circle cart__item-count-minus'}>
           <svg
             width="10"
             height="10"

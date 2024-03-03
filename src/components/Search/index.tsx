@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { useRef, useCallback, useState, ChangeEvent } from 'react';
 
 import { filterChanged } from '../../features/filtration/filtrationSlice';
@@ -11,7 +13,7 @@ import clearIcon from '../../assets/img/clear-icon.svg';
 
 import { useAppDispatch } from '../../app/hooks';
 
-function Search() {
+const Search: React.FC = memo(() => {
   const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -53,6 +55,6 @@ function Search() {
       )}
     </article>
   );
-}
+});
 
 export default Search;
