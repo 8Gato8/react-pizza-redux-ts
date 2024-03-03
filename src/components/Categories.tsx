@@ -1,15 +1,17 @@
 import { memo } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { useAppDispatch } from '../app/hooks';
 
 import { categoryChanged } from '../features/filtration/filtrationSlice';
 
 const categoriesNames = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
 
-const Сategories: React.FC = memo(() => {
-  const dispatch = useAppDispatch();
+interface CategoriesPropsInterface {
+  category: number | null;
+}
 
-  const category = useAppSelector((state) => state.filtration.category);
+const Сategories: React.FC<CategoriesPropsInterface> = memo(({ category }) => {
+  const dispatch = useAppDispatch();
 
   const onCategoryClick = (categoryId: number | null) => {
     const value = categoryId !== 0 ? categoryId : null;

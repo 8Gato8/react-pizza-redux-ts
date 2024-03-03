@@ -1,25 +1,25 @@
 import { memo } from 'react';
 
+import clsx from 'clsx';
+
 import { useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { useAppDispatch } from '../app/hooks';
 
-import { sortByChanged, selectFiltration } from '../features/filtration/filtrationSlice';
+import { sortByChanged } from '../features/filtration/filtrationSlice';
 
 import { sortingFilters } from '../utils/constants';
 
-import { SortByInterface } from '../@types/filtrationTypes';
-
 import { useOutsideClick } from '../customHooks/useOutsideClick';
 
-const Sort: React.FC = memo(() => {
+import { SortByInterface } from '../@types/filtrationTypes';
+
+const Sort: React.FC<SortByInterface> = memo(({ sortBy, sortRuName, order }) => {
   const dispatch = useAppDispatch();
 
   const sortRef = useOutsideClick(() => {
     setIsSortingPopupOpen(false);
   });
-
-  const { sortBy, sortRuName, order } = useAppSelector(selectFiltration);
 
   const [isSortingPopupOpen, setIsSortingPopupOpen] = useState(false);
 
@@ -56,9 +56,9 @@ const Sort: React.FC = memo(() => {
               <li
                 onClick={() => onSortingFilterClick(sortingType)}
                 key={index}
-                className={`${
-                  sortBy === sortingType.sortBy && order === sortingType.order ? 'active' : ''
-                }`}>
+                className={clsx(
+                  sortBy === sortingType.sortBy && order === sortingType.order && 'active',
+                )}>
                 {sortingType.sortRuName}
               </li>
             ))}

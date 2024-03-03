@@ -34,7 +34,7 @@ interface DataInterface {
   order?: string;
 }
 
-function Home() {
+const Home: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   /* const { pathname } = useLocation(); */
@@ -44,7 +44,8 @@ function Home() {
 
   const { pizzas, pizzasStatus, error } = useAppSelector(selectPizzas);
 
-  const { page, category, sortBy, order, limit, filter } = useAppSelector(selectFiltration);
+  const { page, category, sortBy, sortRuName, order, limit, filter } =
+    useAppSelector(selectFiltration);
 
   const renderPizzas = (pizzas: Array<PizzaInterface>) => {
     if (pizzas) {
@@ -136,14 +137,14 @@ function Home() {
   return (
     <main className="container">
       <article className="content__top">
-        <Categories />
-        <Sort />
+        <Categories category={category} />
+        <Sort sortBy={sortBy} sortRuName={sortRuName} order={order} />
       </article>
       <h2 className="content__title">Все пиццы</h2>
       {renderContent()}
       <Pagination currentPage={page} onPageChange={onPageChange} />
     </main>
   );
-}
+};
 
 export default Home;

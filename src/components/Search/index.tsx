@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { useRef, useCallback, useState, ChangeEvent } from 'react';
+import { useRef, useMemo, useState, ChangeEvent } from 'react';
 
 import { filterChanged } from '../../features/filtration/filtrationSlice';
 
@@ -19,13 +19,13 @@ const Search: React.FC = memo(() => {
 
   const [localSearchValue, setLocalSearchValue] = useState('');
 
-  /* Лучше разобраться с debounce по-нормальному и запилить свою функцию */
-
-  const updateSearchValue = useCallback(
-    debounce((str: string) => {
-      dispatch(filterChanged(str));
-    }, 200),
-    [],
+  const updateSearchValue = useMemo(
+    () =>
+      debounce((str: string) => {
+        console.log(str);
+        dispatch(filterChanged(str));
+      }, 1000),
+    [dispatch],
   );
 
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
