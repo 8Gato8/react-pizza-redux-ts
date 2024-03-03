@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -10,7 +12,7 @@ import { SortByInterface } from '../@types/filtrationTypes';
 
 import { useOutsideClick } from '../customHooks/useOutsideClick';
 
-function Sort() {
+const Sort: React.FC = memo(() => {
   const dispatch = useAppDispatch();
 
   const sortRef = useOutsideClick(() => {
@@ -65,6 +67,6 @@ function Sort() {
       )}
     </article>
   );
-}
+});
 
 export default Sort;
