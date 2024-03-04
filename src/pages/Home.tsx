@@ -3,7 +3,7 @@ import { useNavigate /* , useLocation */ } from 'react-router-dom';
 
 import qs from 'qs';
 
-import { sortingFilters } from '../utils/constants';
+/* import { sortingFilters } from '../utils/constants'; */
 
 import Categories from '../components/Categories';
 import Skeleton from '../components/Pizza/Skeleton';
@@ -11,15 +11,21 @@ import Sort from '../components/Sort';
 import Pizza from '../components/Pizza';
 import Pagination from '../components/Pagination';
 
-import { fetchPizzas, selectPizzas } from '../features/pizzas/pizzasSlice';
+import {
+  fetchPizzas,
+  selectPizzas,
+  /* pizzasGotFromLocalStorage, */
+} from '../features/pizzas/pizzasSlice';
 
-import { AssignFiltrationInterface } from '../@types/filtrationTypes';
+/* import { AssignFiltrationInterface } from '../@types/filtrationTypes'; */
 
 import {
   pageChanged,
-  assignFiltrationState,
+  /* assignFiltrationState, */
   selectFiltration,
 } from '../features/filtration/filtrationSlice';
+
+import { selectCart } from '../features/cart/cartSlice';
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
@@ -46,6 +52,8 @@ const Home: React.FC = () => {
 
   const { page, category, sortBy, sortRuName, order, limit, filter } =
     useAppSelector(selectFiltration);
+
+  const cart = useAppSelector(selectCart);
 
   const renderPizzas = (pizzas: Array<PizzaInterface>) => {
     if (pizzas) {
@@ -78,7 +86,7 @@ const Home: React.FC = () => {
     }
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
 
@@ -93,16 +101,24 @@ const Home: React.FC = () => {
 
       dispatch(assignFiltrationState(newFiltration));
 
-      /* isSearchDone.current = true; */
+      isSearchDone.current = true;
     }
-  }, [dispatch]);
+  }, [dispatch]); */
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    /* if (!isSearchDone.current) { */
+    if (isMounted.current) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    isMounted.current = true;
+  }, [cart]);
+
+  useEffect(() => {
+    /* if (!hasLocalData.current) { */
     const data: DataInterface = {
       sortBy,
       page,
@@ -124,13 +140,15 @@ const Home: React.FC = () => {
     const stringifiedData = qs.stringify(data);
 
     dispatch(fetchPizzas(stringifiedData));
-
-    if (isMounted.current) {
-      navigate(`?${stringifiedData}`);
-    }
     /* } */
 
-    isMounted.current = true;
+    /* hasLocalData.current = false; */
+
+    /* if (isMounted.current) {
+      navigate(`?${stringifiedData}`);
+    } */
+    /* } */
+
     /* isSearchDone.current = false; */
   }, [category, sortBy, filter, page, order, navigate, limit, dispatch]);
 
