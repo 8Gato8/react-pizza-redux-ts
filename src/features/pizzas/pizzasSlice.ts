@@ -4,6 +4,7 @@ import type { RootState } from '../../app/store';
 import { getPizzas } from '../../utils/pizzasApi';
 
 import { PizzaInterface, PizzasStatusType } from '../../@types/pizzasTypes';
+import { getItemFromLocalStorage } from '../../utils/getItemFromLocalStorage';
 
 interface PizzasInterface {
   pizzas: PizzaInterface[];
@@ -11,11 +12,13 @@ interface PizzasInterface {
   error: string | undefined;
 }
 
-const initialState: PizzasInterface = {
+const pizzasInitialState: PizzasInterface = {
   pizzas: [],
   pizzasStatus: 'idle',
   error: '',
 };
+
+const initialState = getItemFromLocalStorage(pizzasInitialState, 'pizzas');
 
 export const fetchPizzas = createAsyncThunk('pizzas/fetchPizzas', async (newParams: string) => {
   return await getPizzas(newParams);

@@ -10,8 +10,9 @@ import {
 } from '../../@types/filtrationTypes';
 
 import { PAGE_LIMIT } from '../../utils/constants';
+import { getItemFromLocalStorage } from '../../utils/getItemFromLocalStorage';
 
-interface FiltrationInterface {
+export interface FiltrationInterface {
   page: number;
   category: null | number;
   sortBy: SortByType;
@@ -21,7 +22,7 @@ interface FiltrationInterface {
   filter: string;
 }
 
-const initialState: FiltrationInterface = {
+const filtrationInitialState: FiltrationInterface = {
   page: 1,
   category: null,
   sortBy: 'rating',
@@ -30,6 +31,8 @@ const initialState: FiltrationInterface = {
   limit: PAGE_LIMIT,
   filter: '',
 };
+
+const initialState = getItemFromLocalStorage(filtrationInitialState, 'filtration');
 
 const filtrationSlice = createSlice({
   name: 'filtration',

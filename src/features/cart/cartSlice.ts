@@ -3,27 +3,23 @@ import type { RootState } from '../../app/store';
 
 import { CartItemInterface } from '../../@types/cartItemTypes';
 
-import { getCartFromLocalStorage } from '../../utils/getCartFromLocalStorage';
+import { getItemFromLocalStorage } from '../../utils/getItemFromLocalStorage';
 
-export interface CartInteface {
+export interface CartInterface {
   cartItems: CartItemInterface[];
   totalCost: number;
   totalCount: number;
 }
 
-/* const initialState: CartInteface = {
+const cartInitialState: CartInterface = {
   cartItems: [],
   totalCost: 0,
   totalCount: 0,
-}; */
-
-const { cartItems, totalCost, totalCount } = getCartFromLocalStorage();
-
-const initialState: CartInteface = {
-  cartItems,
-  totalCost,
-  totalCount,
 };
+
+const cart = getItemFromLocalStorage(cartInitialState, 'cart');
+
+const initialState: CartInterface = cart;
 
 const selectItemsWithoutRemovedItem = createSelector(
   [(state) => state.cartItems, (_, item: CartItemInterface) => item],
@@ -40,7 +36,7 @@ const selectItemsWithoutRemovedItem = createSelector(
 );
 
 export const selectCartItemByParams = (
-  state: CartInteface,
+  state: CartInterface,
   item: CartItemInterface,
 ): undefined | CartItemInterface => {
   return state.cartItems.find(

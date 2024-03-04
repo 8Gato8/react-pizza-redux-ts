@@ -1,9 +1,6 @@
-import { useEffect, useRef } from 'react';
-import { useNavigate /* , useLocation */ } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import qs from 'qs';
-
-/* import { sortingFilters } from '../utils/constants'; */
 
 import Categories from '../components/Categories';
 import Skeleton from '../components/Pizza/Skeleton';
@@ -11,21 +8,9 @@ import Sort from '../components/Sort';
 import Pizza from '../components/Pizza';
 import Pagination from '../components/Pagination';
 
-import {
-  fetchPizzas,
-  selectPizzas,
-  /* pizzasGotFromLocalStorage, */
-} from '../features/pizzas/pizzasSlice';
+import { fetchPizzas, selectPizzas } from '../features/pizzas/pizzasSlice';
 
-/* import { AssignFiltrationInterface } from '../@types/filtrationTypes'; */
-
-import {
-  pageChanged,
-  /* assignFiltrationState, */
-  selectFiltration,
-} from '../features/filtration/filtrationSlice';
-
-import { selectCart } from '../features/cart/cartSlice';
+import { pageChanged, selectFiltration } from '../features/filtration/filtrationSlice';
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
@@ -42,18 +27,11 @@ interface DataInterface {
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  /* const { pathname } = useLocation(); */
-
-  /* const isSearchDone = useRef(false); */
-  const isMounted = useRef(false);
 
   const { pizzas, pizzasStatus, error } = useAppSelector(selectPizzas);
 
   const { page, category, sortBy, sortRuName, order, limit, filter } =
     useAppSelector(selectFiltration);
-
-  const cart = useAppSelector(selectCart);
 
   const renderPizzas = (pizzas: Array<PizzaInterface>) => {
     if (pizzas) {
@@ -86,39 +64,11 @@ const Home: React.FC = () => {
     }
   };
 
-  /* useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-
-      const sort = sortingFilters.find(
-        (obj) => obj.sortBy === params.sortBy && obj.order === params.order,
-      );
-
-      const newFiltration = {
-        ...params,
-        ...sort,
-      } as AssignFiltrationInterface;
-
-      dispatch(assignFiltrationState(newFiltration));
-
-      isSearchDone.current = true;
-    }
-  }, [dispatch]); */
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    if (isMounted.current) {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
-
-    isMounted.current = true;
-  }, [cart]);
-
-  useEffect(() => {
-    /* if (!hasLocalData.current) { */
     const data: DataInterface = {
       sortBy,
       page,
@@ -140,17 +90,7 @@ const Home: React.FC = () => {
     const stringifiedData = qs.stringify(data);
 
     dispatch(fetchPizzas(stringifiedData));
-    /* } */
-
-    /* hasLocalData.current = false; */
-
-    /* if (isMounted.current) {
-      navigate(`?${stringifiedData}`);
-    } */
-    /* } */
-
-    /* isSearchDone.current = false; */
-  }, [category, sortBy, filter, page, order, navigate, limit, dispatch]);
+  }, [category, sortBy, filter, page, order, limit, dispatch]);
 
   return (
     <main className="container">
