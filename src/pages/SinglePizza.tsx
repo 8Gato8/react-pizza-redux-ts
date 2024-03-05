@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 import { fetchPizzaById, selectSinglePizza } from '../features/singlePizza/singlePizzaSlice';
 
-function SinglePizza() {
+export const SinglePizza: React.FC = () => {
   const { id } = useParams();
 
   const dispatch = useAppDispatch();
@@ -38,6 +38,4 @@ function SinglePizza() {
   }, [dispatch, id]);
 
   return <section className="container">{renderContent()}</section>;
-}
-
-export default SinglePizza;
+};

@@ -1,6 +1,6 @@
 import styles from './NotFoundBlock.module.scss';
 
-function NotFoundBlock() {
+export const NotFoundBlock: React.FC = () => {
   return (
     <main className={styles.root}>
       <span>😕</span>
@@ -8,6 +8,4 @@ function NotFoundBlock() {
       <p>Пожалуйста, укажите корректный путь в адресной строке</p>
     </main>
   );
-}
-
-export default NotFoundBlock;
+};

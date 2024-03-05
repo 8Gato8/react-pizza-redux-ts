@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import CartItem from '../components/CartItem';
-import EmptyCart from '../components/EmptyCart';
+import { CartItem, EmptyCart } from '../components/reexports';
 
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 
@@ -9,7 +8,7 @@ import { allCartItemsRemoved, selectCart } from '../features/cart/cartSlice';
 
 import { CartItemInterface } from '../@types/cartItemTypes';
 
-function Cart() {
+export const Cart: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const { cartItems, totalCost, totalCount } = useAppSelector(selectCart);
@@ -140,6 +139,6 @@ function Cart() {
       </div>
     </main>
   );
-}
+};
 
 export default Cart;

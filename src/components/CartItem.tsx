@@ -10,7 +10,7 @@ import {
 
 import { CartItemInterface } from '../@types/cartItemTypes';
 
-const CartItem: React.FC<CartItemInterface> = memo((cartItem: CartItemInterface) => {
+export const CartItem: React.FC<CartItemInterface> = memo((cartItem: CartItemInterface) => {
   const { title, price, size, type, count, imageUrl } = cartItem;
 
   const dispatch = useAppDispatch();
@@ -105,5 +105,3 @@ const CartItem: React.FC<CartItemInterface> = memo((cartItem: CartItemInterface)
     </article>
   );
 });
-
-export default CartItem;

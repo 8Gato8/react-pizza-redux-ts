@@ -10,7 +10,7 @@ interface CategoriesPropsInterface {
   category: number | null;
 }
 
-const Сategories: React.FC<CategoriesPropsInterface> = memo(({ category }) => {
+export const Categories: React.FC<CategoriesPropsInterface> = memo(({ category }) => {
   const dispatch = useAppDispatch();
 
   const onCategoryClick = (categoryId: number | null) => {
@@ -33,5 +33,3 @@ const Сategories: React.FC<CategoriesPropsInterface> = memo(({ category }) => {
     </article>
   );
 });
-
-export default Сategories;

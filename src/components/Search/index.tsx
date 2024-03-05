@@ -9,11 +9,12 @@ import debounce from 'lodash.debounce';
 import styles from './Search.module.scss';
 
 import searchIcon from '../../assets/img/search-icon.svg';
+
 import clearIcon from '../../assets/img/clear-icon.svg';
 
 import { useAppDispatch } from '../../app/hooks';
 
-const Search: React.FC = memo(() => {
+export const Search: React.FC = memo(() => {
   const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -56,5 +57,3 @@ const Search: React.FC = memo(() => {
     </article>
   );
 });
-
-export default Search;

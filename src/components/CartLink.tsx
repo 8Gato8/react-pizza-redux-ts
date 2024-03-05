@@ -6,7 +6,7 @@ import cartIcon from '../assets/img/cart.svg';
 import { useAppSelector } from '../app/hooks';
 import { selectCart } from '../features/cart/cartSlice';
 
-const CartLink: React.FC = memo(() => {
+export const CartLink: React.FC = memo(() => {
   const { totalCost, totalCount } = useAppSelector(selectCart);
 
   return (
@@ -20,5 +20,3 @@ const CartLink: React.FC = memo(() => {
     </div>
   );
 });
-
-export default CartLink;

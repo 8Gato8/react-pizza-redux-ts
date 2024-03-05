@@ -8,7 +8,15 @@ import { PizzaInterface } from '../../@types/pizzasTypes';
 
 import { Link } from 'react-router-dom';
 
-function Pizza({ id, imageUrl, title, sizes, price, types, count }: PizzaInterface) {
+export const Pizza: React.FC<PizzaInterface> = ({
+  id,
+  imageUrl,
+  title,
+  sizes,
+  price,
+  types,
+  count,
+}) => {
   const dispatch = useAppDispatch();
 
   const typeNames = ['тонкое', 'традиционное'];
@@ -93,6 +101,4 @@ function Pizza({ id, imageUrl, title, sizes, price, types, count }: PizzaInterfa
       </div>
     </article>
   );
-}
-
-export default Pizza;
+};

@@ -14,7 +14,7 @@ import { useOutsideClick } from '../customHooks/useOutsideClick';
 
 import { SortByInterface } from '../@types/filtrationTypes';
 
-const Sort: React.FC<SortByInterface> = memo(({ sortBy, sortRuName, order }) => {
+export const Sort: React.FC<SortByInterface> = memo(({ sortBy, sortRuName, order }) => {
   const dispatch = useAppDispatch();
 
   const sortRef = useOutsideClick(() => {
@@ -68,5 +68,3 @@ const Sort: React.FC<SortByInterface> = memo(({ sortBy, sortRuName, order }) => 
     </article>
   );
 });
-
-export default Sort;

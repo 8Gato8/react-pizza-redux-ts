@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/img/pizza-logo.svg';
 
-const ReactPizzaLogo: React.FC = memo(() => {
+export const ReactPizzaLogo: React.FC = memo(() => {
   return (
     <Link to="/">
       <div className="header__logo">
@@ -16,5 +16,3 @@ const ReactPizzaLogo: React.FC = memo(() => {
     </Link>
   );
 });
-
-export default ReactPizzaLogo;

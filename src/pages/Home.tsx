@@ -2,11 +2,7 @@ import { useEffect } from 'react';
 
 import qs from 'qs';
 
-import Categories from '../components/Categories';
-import Skeleton from '../components/Pizza/Skeleton';
-import Sort from '../components/Sort';
-import Pizza from '../components/Pizza';
-import Pagination from '../components/Pagination';
+import { Categories, Skeleton, Sort, Pizza, Pagination } from '../components/reexports';
 
 import { fetchPizzas, selectPizzas } from '../features/pizzas/pizzasSlice';
 
@@ -25,7 +21,7 @@ interface DataInterface {
   order?: string;
 }
 
-const Home: React.FC = () => {
+export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const { pizzas, pizzasStatus, error } = useAppSelector(selectPizzas);
@@ -104,5 +100,3 @@ const Home: React.FC = () => {
     </main>
   );
 };
-
-export default Home;

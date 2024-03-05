@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import Search from './Search';
+import { Search } from './Search';
 
 import { useAppSelector } from '../app/hooks';
 
@@ -10,10 +10,9 @@ import { selectCart } from '../features/cart/cartSlice';
 import { selectFiltration } from '../features/filtration/filtrationSlice';
 import { selectPizzas } from '../features/pizzas/pizzasSlice';
 
-import CartLink from './CartLink';
-import ReactPizzaLogo from './ReactPizzaLogo';
+import { ReactPizzaLogo, CartLink } from './reexports';
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const { pathname } = useLocation();
 
   const cart = useAppSelector(selectCart);
@@ -66,5 +65,3 @@ const Header: React.FC = () => {
     </section>
   );
 };
-
-export default Header;
