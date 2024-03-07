@@ -10,13 +10,13 @@ export const CartLink: React.FC = memo(() => {
   const { totalCost, totalCount } = useAppSelector(selectCart);
 
   return (
-    <div className="header__cart">
+    <button className="header__cart">
       <Link to="/cart" className="button button--cart">
         <span>{totalCost} ₽</span>
         <div className="button__delimiter"></div>
         <img src={cartIcon} alt="Cart icon" />
         <span>{totalCount}</span>
       </Link>
-    </div>
+    </button>
   );
 });

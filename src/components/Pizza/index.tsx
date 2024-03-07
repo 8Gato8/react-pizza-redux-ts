@@ -8,15 +8,9 @@ import { PizzaInterface } from '../../@types/pizzasTypes';
 
 import { Link } from 'react-router-dom';
 
-export const Pizza: React.FC<PizzaInterface> = ({
-  id,
-  imageUrl,
-  title,
-  sizes,
-  price,
-  types,
-  count,
-}) => {
+export const Pizza: React.FC<PizzaInterface> = (props) => {
+  const { id, imageUrl, title, sizes, price, types } = props;
+
   const dispatch = useAppDispatch();
 
   const typeNames = ['тонкое', 'традиционное'];
@@ -27,28 +21,16 @@ export const Pizza: React.FC<PizzaInterface> = ({
 
   const sameItem = useAppSelector((state) => {
     return selectCartItemByParams(state.cart, {
-      id,
-      price,
+      ...props,
       type: typeNames[activeType],
       size: sizes[activeSize],
-      imageUrl,
-      title,
-      count,
     });
   });
 
   const countInCart = sameItem?.count || 0;
 
   const onAddCartItemToCart = () => {
-    const cartItem = {
-      id,
-      imageUrl,
-      title,
-      price,
-      type: typeNames[activeType],
-      size: sizes[activeSize],
-      count,
-    };
+    const cartItem = { ...props, type: typeNames[activeType], size: sizes[activeSize] };
 
     dispatch(cartItemAdded(cartItem));
   };
