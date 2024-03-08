@@ -31,16 +31,6 @@ body {
     margin: 100px auto;
     width: 580px;
     text-align: center;
-
-    h2 {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 15px;
-    }
-
-    p {
-      font-size: 20px;
-    }
   }
 
   &__title {
@@ -100,10 +90,10 @@ body {
 
   &--cart {
     max-width: 820px;
-    margin: 90px auto;
-    .content__title {
-      margin: 0;
-    }
+  }
+
+  &--single-pizza {
+    max-width: 500px;
   }
 }
 
@@ -165,7 +155,7 @@ body {
     }
   }
 
-  .content__items {
+  &__items {
     display: block;
   }
 
@@ -360,7 +350,7 @@ body {
     }
   }
 
-  &--empty {
+  &--empty{
     margin: 0 auto;
     width: 560px;
     text-align: center;

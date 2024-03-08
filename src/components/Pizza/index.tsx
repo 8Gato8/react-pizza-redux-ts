@@ -41,7 +41,7 @@ export const Pizza: React.FC<PizzaInterface> = (props) => {
         <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
         <h4 className="pizza-block__title">{title}</h4>
       </Link>
-      <div className="pizza-block__selector">
+      <section className="pizza-block__selector">
         <ul>
           {types.map((type, index) => (
             <li
@@ -62,8 +62,8 @@ export const Pizza: React.FC<PizzaInterface> = (props) => {
             </li>
           ))}
         </ul>
-      </div>
-      <div className="pizza-block__bottom">
+      </section>
+      <section className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
         <button onClick={onAddCartItemToCart} className="button button--outline button--add">
           <svg
@@ -80,7 +80,7 @@ export const Pizza: React.FC<PizzaInterface> = (props) => {
           <span>Добавить</span>
           <i>{countInCart}</i>
         </button>
-      </div>
+      </section>
     </article>
   );
 };

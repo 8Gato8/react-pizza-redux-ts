@@ -7,6 +7,7 @@ export interface PizzaInterface {
   price: number;
   category: number;
   rating: number;
+  description: string;
   count: number;
 }
 

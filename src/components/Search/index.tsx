@@ -23,7 +23,6 @@ export const Search: React.FC = memo(() => {
   const updateSearchValue = useMemo(
     () =>
       debounce((str: string) => {
-        console.log(str);
         dispatch(filterChanged(str));
       }, 1000),
     [dispatch],

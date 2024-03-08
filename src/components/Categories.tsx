@@ -4,7 +4,7 @@ import { useAppDispatch } from '../app/hooks';
 
 import { categoryChanged } from '../features/filtration/filtrationSlice';
 
-const categoriesNames = ['Все', 'Мясные', 'Вегетарианские', 'Гриль', 'Острые', 'Закрытые'];
+const categoriesNames = ['Все', 'Мясные', 'Вегетарианские', 'Острые'];
 
 interface CategoriesPropsInterface {
   category: number | null;

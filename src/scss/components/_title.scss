@@ -1,0 +1,12 @@
+.title {
+	margin-bottom: 40px;
+
+	@media (max-width: 530px) {
+		text-align: center;
+	}
+
+	&--cart {
+		margin: 0;
+	}
+	
+}

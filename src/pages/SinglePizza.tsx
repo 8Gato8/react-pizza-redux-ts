@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -9,7 +11,7 @@ export const SinglePizza: React.FC = () => {
 
   const dispatch = useAppDispatch();
   const { singlePizza, singlePizzaStatus, error } = useAppSelector(selectSinglePizza);
-  const { title, imageUrl, price } = singlePizza;
+  const { title, imageUrl, price, description } = singlePizza;
 
   const renderContent = () => {
     switch (singlePizzaStatus) {
@@ -17,11 +19,15 @@ export const SinglePizza: React.FC = () => {
         return <p>Загрузка...</p>;
       case 'succeeded':
         return (
-          <>
-            <img src={imageUrl} alt="Pizza" />
-            <h2>{title}</h2>
-            <p>{price} ₽</p>
-          </>
+          <article className="single-pizza">
+            <img className="single-pizza__img" src={imageUrl} alt="Pizza" />
+            <h2 className="single-pizza__title">{title}</h2>
+            <p className="single-pizza__description">{description}</p>
+            <p className="single-pizza__price">{price} ₽</p>
+            <Link to="/" className="button button--black">
+              <span>Вернуться назад</span>
+            </Link>
+          </article>
         );
       case 'failed':
         return (
@@ -37,5 +43,5 @@ export const SinglePizza: React.FC = () => {
     dispatch(fetchPizzaById(Number(id)));
   }, [dispatch, id]);
 
-  return <section className="container">{renderContent()}</section>;
+  return <section className="container container--single-pizza">{renderContent()}</section>;
 };

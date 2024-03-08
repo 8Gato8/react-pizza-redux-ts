@@ -25,7 +25,7 @@ export const Cart: React.FC = () => {
     <main className="container container--cart">
       <div className="cart">
         <div className="cart__top">
-          <h2 className="content__title">
+          <h2>
             <svg
               width="18"
               height="18"
@@ -96,7 +96,7 @@ export const Cart: React.FC = () => {
             <span>Очистить корзину</span>
           </button>
         </div>
-        <div className="content__items">
+        <div className="cart__items">
           {cartItems.map((cartItem: CartItemInterface, index: number) => (
             <CartItem key={index} {...cartItem} />
           ))}
