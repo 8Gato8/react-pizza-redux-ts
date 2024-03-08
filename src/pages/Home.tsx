@@ -52,10 +52,10 @@ export const Home: React.FC = () => {
         return <section className="content__items">{renderPizzas(pizzas)}</section>;
       case 'failed':
         return (
-          <section className="content__error-info">
-            <h2>Произошла ошибка 😕</h2>
-            <p>Причина: {error}</p>
-          </section>
+          <article className="error-info">
+            <h2 className="error-info__title">Произошла ошибка 😕</h2>
+            <p className="error-info__text">Причина: {error}</p>
+          </article>
         );
     }
   };

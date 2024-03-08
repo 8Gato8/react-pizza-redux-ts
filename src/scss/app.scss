@@ -3,6 +3,7 @@
 
 @import 'components/all';
 
+
 body {
   overflow-y: scroll;
   background-color: $background;
@@ -26,12 +27,6 @@ body {
 
 .content {
   padding: 40px 0;
-  
-  &__error-info {
-    margin: 100px auto;
-    width: 580px;
-    text-align: center;
-  }
 
   &__title {
     margin-bottom: 40px;
