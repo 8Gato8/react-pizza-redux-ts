@@ -9,7 +9,7 @@ import {
   /* AssignFiltrationInterface, */
 } from '../../@types/filtrationTypes';
 
-import { PAGE_LIMIT } from '../../utils/constants';
+/* import { PAGE_LIMIT } from '../../utils/constants'; */
 import { getItemFromLocalStorage } from '../../utils/getItemFromLocalStorage';
 
 export interface FiltrationInterface {
@@ -18,7 +18,6 @@ export interface FiltrationInterface {
   sortBy: SortByType;
   sortRuName: SortRuNameType;
   order: OrderType;
-  limit: number;
   filter: string;
 }
 
@@ -28,7 +27,6 @@ const filtrationInitialState: FiltrationInterface = {
   sortBy: 'rating',
   sortRuName: 'большей популярности',
   order: 'desc',
-  limit: PAGE_LIMIT,
   filter: '',
 };
 

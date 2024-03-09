@@ -12,10 +12,10 @@ import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 import { PizzaInterface } from '../@types/pizzasTypes';
 
+import { PAGE_LIMIT } from '../utils/constants';
+
 interface DataInterface {
   sortBy: string;
-  page: number;
-  limit: number;
   filter?: string;
   category?: null | number;
   order?: string;
@@ -26,12 +26,15 @@ export const Home: React.FC = () => {
 
   const { pizzas, pizzasStatus, error } = useAppSelector(selectPizzas);
 
-  const { page, category, sortBy, sortRuName, order, limit, filter } =
-    useAppSelector(selectFiltration);
+  const { page, category, sortBy, sortRuName, order, filter } = useAppSelector(selectFiltration);
 
   const renderPizzas = (pizzas: Array<PizzaInterface>) => {
     if (pizzas) {
-      const pizzasToRender = pizzas.map((pizza) => <Pizza key={pizza.id} {...pizza} />);
+      const pizzasCopy = [...pizzas];
+      const indexFromWhichToStart = page * PAGE_LIMIT - PAGE_LIMIT;
+      const limitedPizzas = pizzasCopy.splice(indexFromWhichToStart, PAGE_LIMIT);
+
+      const pizzasToRender = limitedPizzas.map((pizza) => <Pizza key={pizza.id} {...pizza} />);
       return pizzasToRender;
     }
   };
@@ -61,14 +64,8 @@ export const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
     const data: DataInterface = {
       sortBy,
-      page,
-      limit,
     };
 
     if (filter) {
@@ -86,7 +83,7 @@ export const Home: React.FC = () => {
     const stringifiedData = qs.stringify(data);
 
     dispatch(fetchPizzas(stringifiedData));
-  }, [category, sortBy, filter, page, order, limit, dispatch]);
+  }, [category, sortBy, filter, order, dispatch]);
 
   return (
     <main className="container">
