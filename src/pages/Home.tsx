@@ -32,10 +32,9 @@ export const Home: React.FC = () => {
     if (pizzas) {
       const pizzasCopy = [...pizzas];
       const indexFromWhichToStart = page * PAGE_LIMIT - PAGE_LIMIT;
-      const limitedPizzas = pizzasCopy.splice(indexFromWhichToStart, PAGE_LIMIT);
+      const pizzasToRender = pizzasCopy.splice(indexFromWhichToStart, PAGE_LIMIT);
 
-      const pizzasToRender = limitedPizzas.map((pizza) => <Pizza key={pizza.id} {...pizza} />);
-      return pizzasToRender;
+      return pizzasToRender.map((pizza) => <Pizza key={pizza.id} {...pizza} />);
     }
   };
 
@@ -62,6 +61,10 @@ export const Home: React.FC = () => {
         );
     }
   };
+
+  useEffect(() => {
+    dispatch(pageChanged(1));
+  }, [category, sortBy, filter, order, dispatch]);
 
   useEffect(() => {
     const data: DataInterface = {
@@ -93,7 +96,7 @@ export const Home: React.FC = () => {
       </article>
       <h2 className="content__title">Все пиццы</h2>
       {renderContent()}
-      <Pagination currentPage={page} onPageChange={onPageChange} />
+      <Pagination page={page} pizzasLength={pizzas.length} onPageChange={onPageChange} />
     </main>
   );
 };
