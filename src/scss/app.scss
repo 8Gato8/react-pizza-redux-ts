@@ -3,7 +3,6 @@
 
 @import 'components/all';
 
-
 body {
   overflow-y: scroll;
   background-color: $background;
@@ -41,7 +40,7 @@ body {
     grid-template-columns: repeat(4, 1fr);
     justify-items: center;
     gap: 65px 40px;
-    margin-bottom: 80px;
+    margin-bottom: 50px;
 
     @media (max-width: 1400px) {
       grid-template-columns: repeat(3, 1fr);
@@ -60,13 +59,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 50px;
+    margin-bottom: 35px;
 
     @media (max-width: 1400px) {
       flex-direction: column;
       align-items: flex-start;
       row-gap: 20px;
-      margin-bottom: 50px;
     }
 
     @media (max-width: 670px) {
@@ -200,7 +198,6 @@ body {
         padding-left: 20px;
       }
 
-
       @media (max-width: 540px) {
         max-width: 100%;
       }
@@ -259,7 +256,6 @@ body {
           }
         }
       }
-
 
       b {
         font-size: 22px;
@@ -391,7 +387,7 @@ body {
     }
   }
 
-  &--empty{
+  &--empty {
     margin: 0 auto;
     width: 560px;
     text-align: center;

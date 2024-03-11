@@ -1,5 +1,7 @@
 import { useState, memo } from 'react';
 
+import clsx from 'clsx';
+
 import { PAGE_LIMIT } from '../utils/constants';
 
 import { useAppDispatch } from '../app/hooks';
@@ -42,16 +44,19 @@ export const Pagination: React.FC<PaginationProps> = memo(({ page, pizzasLength 
         className="pagination__button prev-button"
         onClick={() => onPageChange(page - 1)}
         disabled={page === 1}>
-        {'<'}
+        <span>{'<'}</span>
       </button>
 
-      {chunk.map((page, index) => (
+      {chunk.map((chunkPage, index) => (
         <button
-          className="pagination__button"
+          className={clsx(
+            'pagination__button',
+            chunkPage === page && 'pagination__button--selected',
+          )}
           key={index}
-          onClick={() => onPageChange(page)}
-          disabled={(page - 1) * PAGE_LIMIT >= pizzasLength}>
-          {page}
+          onClick={() => onPageChange(chunkPage)}
+          disabled={(chunkPage - 1) * PAGE_LIMIT >= pizzasLength}>
+          <span>{chunkPage}</span>
         </button>
       ))}
 
@@ -59,7 +64,7 @@ export const Pagination: React.FC<PaginationProps> = memo(({ page, pizzasLength 
         className="pagination__button next-button"
         onClick={() => onPageChange(page + 1)}
         disabled={page * PAGE_LIMIT >= pizzasLength}>
-        {'>'}
+        <span>{'>'}</span>
       </button>
     </article>
   );

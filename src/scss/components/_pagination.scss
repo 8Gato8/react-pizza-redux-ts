@@ -1,0 +1,60 @@
+$orange: #fe5f1e;
+$white: #fff;
+$radius: 30px;
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  column-gap: 10px;
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    color: $orange;
+    border-radius: $radius;
+    border: 1px solid $orange;
+    background-color: $white;
+    text-align: center;
+    line-height: 38px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+
+    &:hover,
+    &--selected {
+      background-color: $orange;
+
+      span {
+        color: $white;
+      }
+    }
+
+    &:active {
+      background-color: #f24701;
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: 0.4;
+
+      &:hover {
+        background-color: $white;
+        span {
+          color: #000;
+        }
+      }
+    }
+  }
+
+  /* :global {
+    .selected {
+      a {
+        background-color: $orange;
+        color: $white;
+      }
+    }
+  } */
+}
