@@ -1,6 +1,6 @@
 export * from './Header';
 export * from './Categories';
-export * from './Pizza/Skeleton';
+export * from './Skeleton';
 export * from './Sort';
 export * from './Pizza';
 export * from './Pagination';

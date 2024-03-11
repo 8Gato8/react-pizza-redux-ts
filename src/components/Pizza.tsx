@@ -1,10 +1,10 @@
 import { useState, memo } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
-import { cartItemAdded, selectCartItemByParams } from '../../features/cart/cartSlice';
+import { cartItemAdded, selectCartItemByParams } from '../features/cart/cartSlice';
 
-import { PizzaInterface } from '../../@types/pizzasTypes';
+import { PizzaInterface } from '../@types/pizzasTypes';
 
 import { Link } from 'react-router-dom';
 
