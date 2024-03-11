@@ -42,10 +42,6 @@ export const Home: React.FC = () => {
     return [...new Array(4)].map((_, index) => <Skeleton key={index} />);
   };
 
-  const onPageChange = (newPage: number) => {
-    dispatch(pageChanged(newPage));
-  };
-
   const renderContent = () => {
     switch (pizzasStatus) {
       case 'loading':
@@ -96,7 +92,7 @@ export const Home: React.FC = () => {
       </article>
       <h2 className="content__title">Все пиццы</h2>
       {renderContent()}
-      <Pagination page={page} pizzasLength={pizzas.length} onPageChange={onPageChange} />
+      <Pagination page={page} pizzasLength={pizzas.length} /* onPageChange={onPageChange} */ />
     </main>
   );
 };

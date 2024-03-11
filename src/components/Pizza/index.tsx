@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
@@ -8,7 +8,7 @@ import { PizzaInterface } from '../../@types/pizzasTypes';
 
 import { Link } from 'react-router-dom';
 
-export const Pizza: React.FC<PizzaInterface> = (props) => {
+export const Pizza: React.FC<PizzaInterface> = memo((props) => {
   const { id, imageUrl, title, sizes, price, types } = props;
 
   const dispatch = useAppDispatch();
@@ -83,4 +83,4 @@ export const Pizza: React.FC<PizzaInterface> = (props) => {
       </section>
     </article>
   );
-};
+});

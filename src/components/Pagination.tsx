@@ -1,17 +1,20 @@
-/* import { useState } from 'react'; */
+import { useState, memo } from 'react';
 
 import { PAGE_LIMIT } from '../utils/constants';
+
+import { useAppDispatch } from '../app/hooks';
+
+import { pageChanged } from '../features/filtration/filtrationSlice';
 
 interface PaginationProps {
   page: number;
   pizzasLength: number;
-  onPageChange: (newItem: number) => void;
 }
 
-export const Pagination: React.FC<PaginationProps> = ({ page, pizzasLength, onPageChange }) => {
-  const chunk = [1, 2, 3];
+export const Pagination: React.FC<PaginationProps> = memo(({ page, pizzasLength }) => {
+  const dispatch = useAppDispatch();
 
-  /* const [chunk, setChunk] = useState([1, 2, 3]);
+  const [chunk, setChunk] = useState([1, 2, 3]);
 
   const incrementChunkItem = () => {
     setChunk((prev) => prev.map((prevItem) => prevItem + 1));
@@ -19,7 +22,19 @@ export const Pagination: React.FC<PaginationProps> = ({ page, pizzasLength, onPa
 
   const decrementChunkItem = () => {
     setChunk((prev) => prev.map((prevItem) => prevItem - 1));
-  }; */
+  };
+
+  const onPageChange = (newPage: number) => {
+    dispatch(pageChanged(newPage));
+
+    if (newPage === chunk[2]) {
+      incrementChunkItem();
+    }
+
+    if (newPage === chunk[0] && newPage !== 1) {
+      decrementChunkItem();
+    }
+  };
 
   return (
     <article className="pagination">
@@ -30,13 +45,13 @@ export const Pagination: React.FC<PaginationProps> = ({ page, pizzasLength, onPa
         {'<'}
       </button>
 
-      {chunk.map((item, index) => (
+      {chunk.map((page, index) => (
         <button
           className="pagination__button"
           key={index}
-          onClick={() => onPageChange(item)}
-          disabled={(item - 1) * PAGE_LIMIT >= pizzasLength}>
-          {item}
+          onClick={() => onPageChange(page)}
+          disabled={(page - 1) * PAGE_LIMIT >= pizzasLength}>
+          {page}
         </button>
       ))}
 
@@ -48,4 +63,4 @@ export const Pagination: React.FC<PaginationProps> = ({ page, pizzasLength, onPa
       </button>
     </article>
   );
-};
+});
