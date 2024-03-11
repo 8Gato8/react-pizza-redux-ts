@@ -2,17 +2,15 @@ import { memo } from 'react';
 
 import { useRef, useMemo, useState, ChangeEvent } from 'react';
 
-import { filterChanged } from '../../features/filtration/filtrationSlice';
+import { filterChanged } from '../features/filtration/filtrationSlice';
 
 import debounce from 'lodash.debounce';
 
-import styles from './Search.module.scss';
+import searchIcon from '../assets/img/search-icon.svg';
 
-import searchIcon from '../../assets/img/search-icon.svg';
+import clearIcon from '../assets/img/clear-icon.svg';
 
-import clearIcon from '../../assets/img/clear-icon.svg';
-
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch } from '../app/hooks';
 
 export const Search: React.FC = memo(() => {
   const dispatch = useAppDispatch();
@@ -40,18 +38,23 @@ export const Search: React.FC = memo(() => {
   };
 
   return (
-    <article className={styles.root}>
-      <img src={searchIcon} className={styles.searchIcon} alt="search icon" />
+    <article className="search">
+      <img src={searchIcon} className="search__icon" alt="search icon" />
       <input
         ref={inputRef}
         value={localSearchValue}
         onChange={(event) => onChangeInput(event)}
-        className={styles.input}
+        className="search__input"
         placeholder="Поиск пиццы..."
       />
 
       {localSearchValue && (
-        <img src={clearIcon} className={styles.clearIcon} onClick={onClearClick} alt="clear icon" />
+        <img
+          src={clearIcon}
+          className="search__clear-icon"
+          onClick={onClearClick}
+          alt="clear icon"
+        />
       )}
     </article>
   );

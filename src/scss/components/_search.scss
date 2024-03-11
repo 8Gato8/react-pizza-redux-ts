@@ -1,0 +1,42 @@
+@mixin icon($width, $height) {
+  position: absolute;
+  width: $width;
+  height: $height;
+  top: 12px;
+  opacity: 0.2;
+}
+
+.search {
+  position: relative;
+
+  &__input {
+    font-size: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 12px 20px 12px 45px;
+    width: 400px;
+    border-radius: 10px;
+
+    @media (max-width: 670px) {
+      width: 230px;
+    }
+
+    &:focus {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  &__icon {
+    @include icon(24px, 24px);
+    left: 12px;
+  }
+
+  &__clear-icon {
+    @include icon(26px, 26px);
+    right: 12px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
