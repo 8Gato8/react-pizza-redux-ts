@@ -54,7 +54,7 @@ const filtrationSlice = createSlice({
       state.filter = '';
     },
     allFiltrationReset: () => {
-      return initialState;
+      return filtrationInitialState;
     },
   },
 });

@@ -14,6 +14,10 @@ import { PizzaInterface } from '../@types/pizzasTypes';
 
 import { PAGE_LIMIT } from '../utils/constants';
 
+interface HomeProps {
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
 interface DataInterface {
   sortBy: string;
   filter?: string;
@@ -21,12 +25,17 @@ interface DataInterface {
   order?: string;
 }
 
-export const Home: React.FC = () => {
+export const Home: React.FC<HomeProps> = ({ setSearchValue }) => {
   const dispatch = useAppDispatch();
 
   const { pizzas, pizzasStatus, error } = useAppSelector(selectPizzas);
 
   const { page, category, sortBy, sortRuName, order, filter } = useAppSelector(selectFiltration);
+
+  const resetFilter = () => {
+    dispatch(filterReset());
+    setSearchValue('');
+  };
 
   const renderPizzas = (pizzas: Array<PizzaInterface>) => {
     if (pizzas) {
@@ -58,9 +67,7 @@ export const Home: React.FC = () => {
             <p className="error-info__text">
               Попробуйте ввести другое значение или сбросить фильтр поиска
             </p>
-            <button
-              onClick={() => dispatch(filterReset())}
-              className="cart--empty button button--black">
+            <button onClick={resetFilter} className="cart--empty button button--black">
               <span>Сбросить поиск</span>
             </button>
           </article>

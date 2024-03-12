@@ -83,7 +83,7 @@ export const cartSlice = createSlice({
       state.totalCount -= action.payload.count;
     },
     allCartItemsRemoved: () => {
-      return initialState;
+      return cartInitialState;
     },
   },
 });

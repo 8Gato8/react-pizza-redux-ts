@@ -4,14 +4,19 @@ import { Search } from './Search';
 
 import { ReactPizzaLogo, CartLink } from './reexports';
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const Header: React.FC<HeaderProps> = ({ searchValue, setSearchValue }) => {
   const { pathname } = useLocation();
 
   const renderContent = () => {
     if (pathname !== '/cart') {
       return (
         <>
-          <Search />
+          <Search searchValue={searchValue} setSearchValue={setSearchValue} />
           <CartLink />
         </>
       );
@@ -21,7 +26,7 @@ export const Header: React.FC = () => {
   return (
     <section className="header">
       <div className="container">
-        <ReactPizzaLogo />
+        <ReactPizzaLogo setSearchValue={setSearchValue} />
         {renderContent()}
       </div>
     </section>

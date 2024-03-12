@@ -1,6 +1,6 @@
 import '../scss/app.scss';
 
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { useAppSelector } from '../app/hooks';
 
@@ -20,6 +20,8 @@ const App: React.FC = () => {
   const pizzas = useAppSelector(selectPizzas);
 
   const isMounted = useRef(false);
+
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     if (isMounted.current) {
@@ -48,10 +50,10 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <div className="wrapper">
-        <Header />
+        <Header searchValue={searchValue} setSearchValue={setSearchValue} />
         <div className="content">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home setSearchValue={setSearchValue} />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/items/pizza/:id" element={<SinglePizza />} />

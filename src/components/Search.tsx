@@ -1,4 +1,4 @@
-import { useRef, useMemo, useState, memo, ChangeEvent } from 'react';
+import { useRef, useMemo, memo, ChangeEvent } from 'react';
 
 import { filterChanged, filterReset } from '../features/filtration/filtrationSlice';
 
@@ -10,11 +10,15 @@ import clearIcon from '../assets/img/clear-icon.svg';
 
 import { useAppDispatch } from '../app/hooks';
 
-export const Search: React.FC = memo(() => {
-  const dispatch = useAppDispatch();
-  const inputRef = useRef<HTMLInputElement>(null);
+interface SearchProps {
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+}
 
-  const [localSearchValue, setLocalSearchValue] = useState('');
+export const Search: React.FC<SearchProps> = memo(({ searchValue, setSearchValue }) => {
+  const dispatch = useAppDispatch();
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const updateSearchValue = useMemo(
     () =>
@@ -25,13 +29,13 @@ export const Search: React.FC = memo(() => {
   );
 
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
-    setLocalSearchValue(event.target.value);
+    setSearchValue(event.target.value);
     updateSearchValue(event.target.value);
   };
 
   const onClearClick = () => {
     dispatch(filterReset());
-    setLocalSearchValue('');
+    setSearchValue('');
     inputRef.current?.focus();
   };
 
@@ -40,13 +44,13 @@ export const Search: React.FC = memo(() => {
       <img src={searchIcon} className="search__icon" alt="search icon" />
       <input
         ref={inputRef}
-        value={localSearchValue}
+        value={searchValue}
         onChange={(event) => onChangeInput(event)}
         className="search__input"
         placeholder="Поиск пиццы..."
       />
 
-      {localSearchValue && (
+      {searchValue && (
         <img
           src={clearIcon}
           className="search__clear-icon"
