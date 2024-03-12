@@ -82,10 +82,8 @@ export const cartSlice = createSlice({
       state.totalCost -= action.payload.price * action.payload.count;
       state.totalCount -= action.payload.count;
     },
-    allCartItemsRemoved: (state) => {
-      state.cartItems = [];
-      state.totalCost = 0;
-      state.totalCount = 0;
+    allCartItemsRemoved: () => {
+      return initialState;
     },
   },
 });

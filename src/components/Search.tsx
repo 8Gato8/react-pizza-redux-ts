@@ -1,8 +1,6 @@
-import { memo } from 'react';
+import { useRef, useMemo, useState, memo, ChangeEvent } from 'react';
 
-import { useRef, useMemo, useState, ChangeEvent } from 'react';
-
-import { filterChanged } from '../features/filtration/filtrationSlice';
+import { filterChanged, filterReset } from '../features/filtration/filtrationSlice';
 
 import debounce from 'lodash.debounce';
 
@@ -32,7 +30,7 @@ export const Search: React.FC = memo(() => {
   };
 
   const onClearClick = () => {
-    dispatch(filterChanged(''));
+    dispatch(filterReset());
     setLocalSearchValue('');
     inputRef.current?.focus();
   };

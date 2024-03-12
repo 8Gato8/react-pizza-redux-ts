@@ -6,10 +6,8 @@ import {
   SortByType,
   SortRuNameType,
   OrderType,
-  /* AssignFiltrationInterface, */
 } from '../../@types/filtrationTypes';
 
-/* import { PAGE_LIMIT } from '../../utils/constants'; */
 import { getItemFromLocalStorage } from '../../utils/getItemFromLocalStorage';
 
 export interface FiltrationInterface {
@@ -52,15 +50,12 @@ const filtrationSlice = createSlice({
     filterChanged: (state, action: PayloadAction<string>) => {
       state.filter = action.payload;
     },
-    /* assignFiltrationState: (state, action: PayloadAction<AssignFiltrationInterface>) => {
-      state.page = +action.payload.page;
-      if (action.payload.category !== undefined) {
-        state.category = +action.payload.category;
-      }
-      state.sortBy = action.payload.sortBy;
-      state.sortRuName = action.payload.sortRuName;
-      state.order = action.payload.order;
-    }, */
+    filterReset: (state) => {
+      state.filter = '';
+    },
+    allFiltrationReset: () => {
+      return initialState;
+    },
   },
 });
 
@@ -70,6 +65,8 @@ export const {
   pageChanged,
   categoryChanged,
   sortByChanged,
-  filterChanged /* , assignFiltrationState */,
+  filterChanged,
+  filterReset,
+  allFiltrationReset,
 } = filtrationSlice.actions;
 export default filtrationSlice.reducer;

@@ -6,7 +6,7 @@ import { Categories, Skeleton, Sort, Pizza, Pagination } from '../components/ree
 
 import { fetchPizzas, selectPizzas } from '../features/pizzas/pizzasSlice';
 
-import { pageChanged, selectFiltration } from '../features/filtration/filtrationSlice';
+import { pageChanged, filterReset, selectFiltration } from '../features/filtration/filtrationSlice';
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
@@ -51,8 +51,18 @@ export const Home: React.FC = () => {
       case 'failed':
         return (
           <article className="error-info">
-            <h2 className="error-info__title">Произошла ошибка 😕</h2>
+            <h2 className="error-info__title">
+              К сожалению, по данному запросу пиццы не найдены 😕
+            </h2>
             <p className="error-info__text">Причина: {error}</p>
+            <p className="error-info__text">
+              Попробуйте ввести другое значение или сбросить фильтр поиска
+            </p>
+            <button
+              onClick={() => dispatch(filterReset())}
+              className="cart--empty button button--black">
+              <span>Сбросить поиск</span>
+            </button>
           </article>
         );
     }
