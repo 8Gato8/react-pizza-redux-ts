@@ -1,12 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import qs from 'qs';
 
-import { Categories, SkeletonForHomePage, Sort, Pizza, Pagination } from '../components/reexports';
+import {
+  Categories,
+  SkeletonForHomePage,
+  Sort,
+  Pizza,
+  Pagination,
+  ErrorInfo,
+} from '../components/reexports';
 
 import { fetchPizzas, selectPizzas } from '../features/pizzas/pizzasSlice';
 
-import { filterReset, pageChanged, selectFiltration } from '../features/filtration/filtrationSlice';
+import { pageChanged, selectFiltration } from '../features/filtration/filtrationSlice';
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
@@ -15,7 +22,8 @@ import { PizzaInterface } from '../@types/pizzasTypes';
 import { PAGE_LIMIT } from '../utils/constants';
 
 interface HomeProps {
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  resetFilter: () => void;
+  resetAllFilters: () => void;
 }
 
 interface DataInterface {
@@ -25,17 +33,14 @@ interface DataInterface {
   order?: string;
 }
 
-export const Home: React.FC<HomeProps> = ({ setSearchValue }) => {
+export const Home: React.FC<HomeProps> = ({ resetFilter, resetAllFilters }) => {
   const dispatch = useAppDispatch();
+
+  const isMounted = useRef(false);
 
   const { pizzas, pizzasStatus, error } = useAppSelector(selectPizzas);
 
   const { page, category, sortBy, sortRuName, order, filter } = useAppSelector(selectFiltration);
-
-  const resetFilter = () => {
-    dispatch(filterReset());
-    setSearchValue('');
-  };
 
   const renderPizzas = (pizzas: Array<PizzaInterface>) => {
     if (pizzas) {
@@ -51,27 +56,28 @@ export const Home: React.FC<HomeProps> = ({ setSearchValue }) => {
     return [...new Array(4)].map((_, index) => <SkeletonForHomePage key={index} />);
   };
 
+  const renderError = () => {
+    return <ErrorInfo error={error} resetFilter={resetFilter} resetAllFilters={resetAllFilters} />;
+  };
+
   const renderContent = () => {
     switch (pizzasStatus) {
       case 'loading':
-        return <section className="content__items">{renderSkeletons()}</section>;
-      case 'succeeded':
-        return <section className="content__items">{renderPizzas(pizzas)}</section>;
-      case 'failed':
         return (
-          <article className="error-info">
-            <h2 className="error-info__title">
-              К сожалению, по данному запросу пиццы не найдены 😕
-            </h2>
-            <p className="error-info__text">Причина: {error}</p>
-            <p className="error-info__text">
-              Попробуйте ввести другое значение или сбросить фильтр поиска
-            </p>
-            <button onClick={resetFilter} className="cart--empty button button--black">
-              <span>Сбросить поиск</span>
-            </button>
-          </article>
+          <>
+            <h2 className="content__title">Все пиццы</h2>
+            <section className="content__items">{renderSkeletons()}</section>
+          </>
         );
+      case 'succeeded':
+        return (
+          <>
+            <h2 className="content__title">Все пиццы</h2>
+            <section className="content__items">{renderPizzas(pizzas)}</section>
+          </>
+        );
+      case 'failed':
+        return renderError();
     }
   };
 
@@ -80,25 +86,29 @@ export const Home: React.FC<HomeProps> = ({ setSearchValue }) => {
   }, [category, sortBy, filter, order, dispatch]);
 
   useEffect(() => {
-    const data: DataInterface = {
-      sortBy,
-    };
+    if (!localStorage.getItem('pizzas') || isMounted.current) {
+      const data: DataInterface = {
+        sortBy,
+      };
 
-    if (filter) {
-      data.filter = filter;
+      if (filter) {
+        data.filter = filter;
+      }
+
+      if (category) {
+        data.category = category;
+      }
+
+      if (order) {
+        data.order = order;
+      }
+
+      const stringifiedData = qs.stringify(data);
+
+      dispatch(fetchPizzas(stringifiedData));
     }
 
-    if (category) {
-      data.category = category;
-    }
-
-    if (order) {
-      data.order = order;
-    }
-
-    const stringifiedData = qs.stringify(data);
-
-    dispatch(fetchPizzas(stringifiedData));
+    isMounted.current = true;
   }, [category, sortBy, filter, order, dispatch]);
 
   return (
@@ -107,7 +117,6 @@ export const Home: React.FC<HomeProps> = ({ setSearchValue }) => {
         <Categories category={category} />
         <Sort sortBy={sortBy} sortRuName={sortRuName} order={order} />
       </article>
-      <h2 className="content__title">Все пиццы</h2>
       {renderContent()}
       <Pagination page={page} pizzasLength={pizzas.length} />
     </main>

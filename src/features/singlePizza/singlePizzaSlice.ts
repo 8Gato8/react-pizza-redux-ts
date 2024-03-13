@@ -5,16 +5,21 @@ import { getPizzaById } from '../../utils/pizzasApi';
 
 import { PizzaInterface, PizzasStatusType } from '../../@types/pizzasTypes';
 
+import { ErrorInterface } from '../pizzas/pizzasSlice';
+
 interface SinglePizzaInterface {
   singlePizza: PizzaInterface | Record<string, never>;
   singlePizzaStatus: PizzasStatusType;
-  error: string | undefined;
+  error: ErrorInterface;
 }
 
 const initialState: SinglePizzaInterface = {
   singlePizza: {},
   singlePizzaStatus: 'idle',
-  error: '',
+  error: {
+    message: '',
+    status: 0,
+  },
 };
 
 export const fetchPizzaById = createAsyncThunk('pizzas/fetchPizzaById', async (id: number) => {
@@ -36,7 +41,11 @@ const singlePizzaSlice = createSlice({
         state.singlePizzaStatus = 'succeeded';
       })
       .addCase(fetchPizzaById.rejected, (state, action) => {
-        state.error = action.error.message;
+        if (action.error.message) {
+          state.error.message = action.error.message;
+          state.error.status = +action.error.message.slice(-3);
+          console.log(+action.error.message?.slice(-3));
+        }
         state.singlePizzaStatus = 'failed';
         state.singlePizza = {};
       });

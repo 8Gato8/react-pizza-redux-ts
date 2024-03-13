@@ -10,3 +10,4 @@ export * from './EmptyCart';
 export * from './NotFoundBlock';
 export * from './ReactPizzaLogo';
 export * from './CartLink';
+export * from './ErrorInfo';

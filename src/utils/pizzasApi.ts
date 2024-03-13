@@ -8,7 +8,7 @@ const makeRequest = async (url: string) => {
 
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
+    /* if (axios.isAxiosError(error)) {
       if (error.response) {
         console.log(error.response.data);
         console.log(error.response.status);
@@ -18,7 +18,7 @@ const makeRequest = async (url: string) => {
       } else {
         console.log('Error', error.message);
       }
-    }
+    } */
     return Promise.reject(error);
   }
 };

@@ -1,26 +1,15 @@
 import { memo } from 'react';
 
-import { useAppDispatch } from '../app/hooks';
-
-import { allFiltrationReset } from '../features/filtration/filtrationSlice';
-
 import { Link } from 'react-router-dom';
 import logoSvg from '../assets/img/pizza-logo.svg';
 
 interface ReactPizzaLogoProps {
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  resetAllFilters: () => void;
 }
 
-export const ReactPizzaLogo: React.FC<ReactPizzaLogoProps> = memo(({ setSearchValue }) => {
-  const dispatch = useAppDispatch();
-
+export const ReactPizzaLogo: React.FC<ReactPizzaLogoProps> = memo(({ resetAllFilters }) => {
   return (
-    <Link
-      onClick={() => {
-        dispatch(allFiltrationReset());
-        setSearchValue('');
-      }}
-      to="/">
+    <Link onClick={resetAllFilters} to="/" reloadDocument>
       <div className="header__logo">
         <img width="38" src={logoSvg} alt="Pizza logo" />
         <div>
