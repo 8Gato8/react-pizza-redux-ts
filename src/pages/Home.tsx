@@ -109,9 +109,7 @@ export const Home: React.FC<HomeProps> = ({ setSearchValue }) => {
       </article>
       <h2 className="content__title">Все пиццы</h2>
       {renderContent()}
-      {/* <section className="content__items">{renderPizzas(pizzas)}</section>;
-      <section className="content__items">{renderSkeletons()}</section>; */}
-      <Pagination page={page} pizzasLength={pizzas.length} /* onPageChange={onPageChange} */ />
+      <Pagination page={page} pizzasLength={pizzas.length} />
     </main>
   );
 };
