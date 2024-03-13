@@ -1,8 +1,7 @@
 import ContentLoader from 'react-content-loader';
 
-export const Skeleton: React.FC = () => (
+export const SkeletonForHomePage: React.FC = () => (
   <ContentLoader
-    className="pizza-block"
     speed={2}
     width={285}
     height={450}

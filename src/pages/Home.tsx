@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 
 import qs from 'qs';
 
-import { Categories, Skeleton, Sort, Pizza, Pagination } from '../components/reexports';
+import { Categories, SkeletonForHomePage, Sort, Pizza, Pagination } from '../components/reexports';
 
 import { fetchPizzas, selectPizzas } from '../features/pizzas/pizzasSlice';
 
-import { pageChanged, filterReset, selectFiltration } from '../features/filtration/filtrationSlice';
+import { filterReset, pageChanged, selectFiltration } from '../features/filtration/filtrationSlice';
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
@@ -48,7 +48,7 @@ export const Home: React.FC<HomeProps> = ({ setSearchValue }) => {
   };
 
   const renderSkeletons = () => {
-    return [...new Array(4)].map((_, index) => <Skeleton key={index} />);
+    return [...new Array(4)].map((_, index) => <SkeletonForHomePage key={index} />);
   };
 
   const renderContent = () => {

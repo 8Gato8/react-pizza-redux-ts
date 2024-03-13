@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 
+import { SkeletonForSinglePizzaPage } from '../components/SkeletonForSinglePizzaPage';
+
 import { fetchPizzaById, selectSinglePizza } from '../features/singlePizza/singlePizzaSlice';
 
 export const SinglePizza: React.FC = () => {
@@ -16,7 +18,11 @@ export const SinglePizza: React.FC = () => {
   const renderContent = () => {
     switch (singlePizzaStatus) {
       case 'loading':
-        return <p>Загрузка...</p>;
+        return (
+          <article className="single-pizza">
+            <SkeletonForSinglePizzaPage />
+          </article>
+        );
       case 'succeeded':
         return (
           <article className="single-pizza">
@@ -31,10 +37,13 @@ export const SinglePizza: React.FC = () => {
         );
       case 'failed':
         return (
-          <section className="content__error-info">
-            <h2>Произошла ошибка 😕</h2>
-            <p>Причина: {error}</p>
-          </section>
+          <article className="error-info">
+            <h2 className="error-info__title">Произошла ошибка 😕</h2>
+            <p className="error-info__text">Причина: {error}</p>
+            <Link to="/" className="button button--black">
+              <span>Вернуться назад</span>
+            </Link>
+          </article>
         );
     }
   };
