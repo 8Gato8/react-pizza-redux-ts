@@ -1,6 +1,6 @@
 import '../scss/app.scss';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useLayoutEffect, useRef, useCallback } from 'react';
 
 import { useAppSelector, useAppDispatch } from '../app/hooks';
 
@@ -29,17 +29,17 @@ const App: React.FC = () => {
 
   const [searchValue, setSearchValue] = useState('');
 
-  const resetFilter = () => {
+  const resetFilter = useCallback(() => {
     dispatch(filterReset());
     setSearchValue('');
-  };
+  }, [dispatch]);
 
-  const resetAllFilters = () => {
+  const resetAllFilters = useCallback(() => {
     dispatch(allFiltrationReset());
     setSearchValue('');
-  };
+  }, [dispatch]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isMounted.current) {
       localStorage.setItem('cart', JSON.stringify(cart));
     }
@@ -47,7 +47,7 @@ const App: React.FC = () => {
     isMounted.current = true;
   }, [cart]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isMounted.current) {
       localStorage.setItem('filtration', JSON.stringify(filtration));
     }
@@ -55,7 +55,7 @@ const App: React.FC = () => {
     isMounted.current = true;
   }, [filtration]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isMounted.current) {
       localStorage.setItem('pizzas', JSON.stringify(pizzas));
     }

@@ -1,6 +1,6 @@
 export * from './Header';
 export * from './Categories';
-export * from './SkeletonForHomePage';
+export * from './SkeletonForPizzaComponent';
 export * from './SkeletonForSinglePizzaPage';
 export * from './Sort';
 export * from './Pizza';

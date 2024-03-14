@@ -4,6 +4,10 @@
   width: 100%;
   text-align: center;
 
+  &--hidden {
+    display: none;
+  }
+
   &__image {
     width: 260px;
     max-width: 100%;

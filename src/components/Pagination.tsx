@@ -47,13 +47,13 @@ export const Pagination: React.FC<PaginationProps> = memo(({ page, pizzasLength 
         <span>{'<'}</span>
       </button>
 
-      {chunk.map((chunkPage, index) => (
+      {chunk.map((chunkPage /* , index */) => (
         <button
           className={clsx(
             'pagination__button',
             chunkPage === page && 'pagination__button--selected',
           )}
-          key={index}
+          key={chunkPage}
           onClick={() => onPageChange(chunkPage)}
           disabled={(chunkPage - 1) * PAGE_LIMIT >= pizzasLength}>
           <span>{chunkPage}</span>

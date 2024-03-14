@@ -1,6 +1,6 @@
 import ContentLoader from 'react-content-loader';
 
-export const SkeletonForHomePage: React.FC = () => (
+export const SkeletonForPizzaComponent: React.FC = () => (
   <ContentLoader
     speed={2}
     width={285}

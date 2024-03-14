@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { /* useEffect, */ useLayoutEffect, useRef } from 'react';
 
 import qs from 'qs';
 
 import {
   Categories,
-  SkeletonForHomePage,
+  SkeletonForPizzaComponent,
   Sort,
   Pizza,
   Pagination,
@@ -53,7 +53,7 @@ export const Home: React.FC<HomeProps> = ({ resetFilter, resetAllFilters }) => {
   };
 
   const renderSkeletons = () => {
-    return [...new Array(4)].map((_, index) => <SkeletonForHomePage key={index} />);
+    return [...new Array(4)].map((_, index) => <SkeletonForPizzaComponent key={index} />);
   };
 
   const renderError = () => {
@@ -81,11 +81,11 @@ export const Home: React.FC<HomeProps> = ({ resetFilter, resetAllFilters }) => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(pageChanged(1));
   }, [category, sortBy, filter, order, dispatch]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!localStorage.getItem('pizzas') || isMounted.current) {
       const data: DataInterface = {
         sortBy,
