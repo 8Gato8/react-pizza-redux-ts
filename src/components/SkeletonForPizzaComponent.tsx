@@ -4,8 +4,8 @@ export const SkeletonForPizzaComponent: React.FC = () => (
   <ContentLoader
     speed={2}
     width={285}
-    height={450}
-    viewBox="0 0 285 450"
+    height={449}
+    viewBox="0 0 285 449"
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb">
     <circle cx="140" cy="115" r="112" />
