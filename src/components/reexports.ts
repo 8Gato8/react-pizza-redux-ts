@@ -2,6 +2,7 @@ export * from './Header';
 export * from './Categories';
 export * from './SkeletonForPizzaComponent';
 export * from './SkeletonForSinglePizzaPage';
+export * from './SkeletonForEmptyCart';
 export * from './Sort';
 export * from './Pizza';
 export * from './Pagination';
