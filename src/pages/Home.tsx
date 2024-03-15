@@ -1,4 +1,4 @@
-import { /* useEffect, */ useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect } from 'react';
 
 import qs from 'qs';
 
@@ -35,8 +35,6 @@ interface DataInterface {
 
 export const Home: React.FC<HomeProps> = ({ resetFilter, resetAllFilters }) => {
   const dispatch = useAppDispatch();
-
-  const isMounted = useRef(false);
 
   const { pizzas, pizzasStatus, error } = useAppSelector(selectPizzas);
 
@@ -86,29 +84,25 @@ export const Home: React.FC<HomeProps> = ({ resetFilter, resetAllFilters }) => {
   }, [category, sortBy, filter, order, dispatch]);
 
   useLayoutEffect(() => {
-    if (!localStorage.getItem('pizzas') || isMounted.current) {
-      const data: DataInterface = {
-        sortBy,
-      };
+    const data: DataInterface = {
+      sortBy,
+    };
 
-      if (filter) {
-        data.filter = filter;
-      }
-
-      if (category) {
-        data.category = category;
-      }
-
-      if (order) {
-        data.order = order;
-      }
-
-      const stringifiedData = qs.stringify(data);
-
-      dispatch(fetchPizzas(stringifiedData));
+    if (filter) {
+      data.filter = filter;
     }
 
-    isMounted.current = true;
+    if (category) {
+      data.category = category;
+    }
+
+    if (order) {
+      data.order = order;
+    }
+
+    const stringifiedData = qs.stringify(data);
+
+    dispatch(fetchPizzas(stringifiedData));
   }, [category, sortBy, filter, order, dispatch]);
 
   return (

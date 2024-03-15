@@ -5,7 +5,7 @@ import { CartItemInterface } from '../../@types/cartItemTypes';
 
 import { getItemFromLocalStorage } from '../../utils/getItemFromLocalStorage';
 
-export interface CartInterface {
+interface CartInterface {
   cartItems: CartItemInterface[];
   totalCost: number;
   totalCount: number;
